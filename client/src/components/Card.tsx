@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import "../style/Card.css";
+
 type CardProps = {
 	username: string;
 	text: string;
@@ -14,7 +16,7 @@ class Card extends Component<CardProps, CardState> {
 	render() {
 		return (
 			<div className="card">
-				<h2>{this.props.username}</h2>
+				<h2>@{this.props.username}</h2>
 				<p>{this.props.text}</p>
 			</div>
 		);
