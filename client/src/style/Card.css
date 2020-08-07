@@ -1,19 +1,50 @@
 .card {
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-	padding: 10px 25px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	padding: 20px 20px 10px;
 	margin: 10px;
-	max-width: 300px;
+	max-width: 500px;
 	border-radius: 5px;
 	text-align: left;
+	margin-bottom: -10px;
 }
 
-.card > h2 {
+.card > .card_text > h2 {
 	color: rgb(81, 84, 238);
-	margin-bottom: 0px;
+	margin: 0px auto 0px;
 	font-size: 1em;
 }
 
-.card > p {
-	margin-top: 10px;
+.card > .card_text > p {
+	margin: 5px auto 5px auto;
 	font-size: 1em;
+}
+
+.card_text {
+	display: block;
+	margin-left: 70px;
+}
+
+.card > img {
+	height: 50px;
+	width: 50px;
+	border: 3px solid #cdcdcd;
+	border-radius: 50%;
+	float: left;
+	background-color: white;
+}
+
+.card > img:hover {
+	opacity: 0.8;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.card > .card_text > ul {
+	padding: 0px;
+	margin: 10px auto;
+}
+
+.card > .card_text > ul > a {
+	color: rgb(81, 84, 238);
+	margin: 0px 10px 0px 0px;
+	padding: 0px;
 }

@@ -10,6 +10,12 @@ app.get("/test", (req: any, res: any) => {
 	return res.send("test");
 });
 
+app.get("/ping", (req: any, res: any) => {
+	return res.send("pong");
+});
+
+// Listening...
+
 app.listen(app.get("port"), () => {
 	console.log(`Server running on port ${app.get("port")}`);
 }).on("error", (e: object) => console.error(e));

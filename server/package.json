@@ -1,6 +1,6 @@
 {
-	"name": "individual-web-development-task-bradleykenny",
-	"version": "1.0.0",
+	"name": "server",
+	"version": "0.1.0",
 	"description": "An individual project for COMP3120 Advanced Web Devleopment",
 	"main": "src/app.ts",
 	"dependencies": {

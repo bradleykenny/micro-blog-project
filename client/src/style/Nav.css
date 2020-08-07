@@ -1,0 +1,20 @@
+#nav {
+	height: 80px;
+	width: 100%;
+	background-color: rgb(81, 84, 238);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	position: fixed;
+	margin-top: -10px;
+}
+
+#nav > ul {
+	margin: 0px;
+	padding: 30px 25px;
+	text-align: left;
+}
+
+#nav > ul > a {
+	color: white;
+	font-weight: bold;
+	margin-right: 20px;
+}

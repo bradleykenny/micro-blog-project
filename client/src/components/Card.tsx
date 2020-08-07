@@ -16,8 +16,15 @@ class Card extends Component<CardProps, CardState> {
 	render() {
 		return (
 			<div className="card">
-				<h2>@{this.props.username}</h2>
-				<p>{this.props.text}</p>
+				<img src="http://robohash.org/jim" />
+				<div className="card_text">
+					<h2>@{this.props.username}</h2>
+					<p>{this.props.text}</p>
+					<ul>
+						<a>Like</a>
+						<a>More</a>
+					</ul>
+				</div>
 			</div>
 		);
 	}
