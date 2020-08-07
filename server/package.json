@@ -4,6 +4,7 @@
 	"description": "An individual project for COMP3120 Advanced Web Devleopment",
 	"main": "src/app.ts",
 	"dependencies": {
+		"@types/express": "^4.17.7",
 		"express": "^4.17.1"
 	},
 	"scripts": {
@@ -14,5 +15,6 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/MQCOMP3120-2020/individual-web-development-task-bradleykenny.git"
-	}
+	},
+	"devDependencies": {}
 }
