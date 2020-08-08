@@ -11,8 +11,7 @@
 	},
 	"scripts": {
 		"start": "npm run build && node build/app.js",
-		"build": "tsc",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"build": "tsc"
 	},
 	"repository": {
 		"type": "git",
