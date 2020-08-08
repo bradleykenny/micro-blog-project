@@ -14,6 +14,9 @@ app.get("/test", (req, res) => {
 app.get("/ping", (req, res) => {
     return res.send("pong");
 });
+app.get("/user/:id", (req, res) => {
+    return res.send({ username: req.params.id });
+});
 app.listen(app.get("port"), () => {
     console.log(`Server running on port ${app.get("port")}`);
 }).on("error", (e) => console.error(e));
@@ -27,5 +30,4 @@ const mongodb = () => {
         client.close();
     });
 };
-mongodb();
 //# sourceMappingURL=app.js.map

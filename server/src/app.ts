@@ -17,6 +17,12 @@ app.get("/ping", (req, res) => {
 	return res.send("pong");
 });
 
+// User information
+
+app.get("/user/:username", (req, res) => {
+	return res.send({ username: req.params.username });
+});
+
 // Listening...
 
 app.listen(app.get("port"), () => {
