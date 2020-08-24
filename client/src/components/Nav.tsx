@@ -9,10 +9,6 @@ type NavProps = {
 type NavState = {};
 
 export class NavBar extends Component<NavProps, NavState> {
-	constructor(props: NavProps) {
-		super(props);
-	}
-
 	render() {
 		return (
 			<Nav variant="pills" activeKey="1" id="nav">

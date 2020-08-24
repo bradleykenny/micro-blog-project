@@ -9,10 +9,6 @@ type CardProps = {
 type CardState = {};
 
 export class Card extends Component<CardProps, CardState> {
-	constructor(props: CardProps) {
-		super(props);
-	}
-
 	render() {
 		return (
 			<div className="card">

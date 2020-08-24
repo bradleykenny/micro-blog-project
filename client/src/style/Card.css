@@ -19,7 +19,8 @@
 }
 
 .card_text {
-	display: block;
+	display: inline-block;
+	margin-top: -45px;
 	margin-left: 70px;
 }
 

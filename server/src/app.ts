@@ -3,6 +3,8 @@ require("dotenv").config();
 import express from "express";
 import mongoose from "mongoose";
 
+import { BlogPost } from "./mongo/posts";
+
 let bodyParser = require("body-parser");
 const app = express();
 
@@ -34,6 +36,13 @@ app.get("/ping", (req, res) => {
 
 app.get("/user/:username", (req, res) => {
 	return res.json({ username: req.params.username });
+});
+
+// Posts...
+
+app.get("/posts", (req, res) => {
+	const instance = new BlogPost();
+	return "1";
 });
 
 // Import test data into Mongo
