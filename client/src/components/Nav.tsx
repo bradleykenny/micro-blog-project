@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Nav from "react-bootstrap/Nav";
 
 import "../style/Nav.css";
 
@@ -7,21 +8,32 @@ type NavProps = {
 };
 type NavState = {};
 
-class Card extends Component<NavProps, NavState> {
+export class NavBar extends Component<NavProps, NavState> {
 	constructor(props: NavProps) {
 		super(props);
 	}
 
 	render() {
 		return (
-			<div id="nav">
-				<ul>
-					<a>Home</a>
-					<a>About</a>
-				</ul>
-			</div>
+			<Nav variant="pills" activeKey="1" id="nav">
+				<a href="#" className="logo">
+					<span className="logo_m">micro</span>
+					<span className="logo_b">blog</span>
+				</a>
+				<Nav.Item>
+					<Nav.Link eventKey="1" href="#/home">
+						Home
+					</Nav.Link>
+				</Nav.Item>
+				<Nav.Item>
+					<Nav.Link eventKey="2" title="Item">
+						About
+					</Nav.Link>
+				</Nav.Item>
+				<Nav.Item>
+					<Nav.Link eventKey="3">Profile</Nav.Link>
+				</Nav.Item>
+			</Nav>
 		);
 	}
 }
-
-export default Card;

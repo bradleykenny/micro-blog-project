@@ -8,7 +8,7 @@ type CardProps = {
 };
 type CardState = {};
 
-class Card extends Component<CardProps, CardState> {
+export class Card extends Component<CardProps, CardState> {
 	constructor(props: CardProps) {
 		super(props);
 	}
@@ -29,5 +29,3 @@ class Card extends Component<CardProps, CardState> {
 		);
 	}
 }
-
-export default Card;

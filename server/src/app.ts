@@ -6,8 +6,6 @@ import mongoose from "mongoose";
 let bodyParser = require("body-parser");
 const app = express();
 
-let apiRoutes = require("./api-routes");
-
 app.use(
 	bodyParser.urlencoded({
 		extended: true,
