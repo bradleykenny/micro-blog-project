@@ -21,7 +21,6 @@ mongoose
 	.connect(url, { useNewUrlParser: true })
 	.then((result) => {
 		console.log("connected to mongo");
-		console.log(result);
 	})
 	.catch((error) => {
 		console.log("NOT connected to mongo");

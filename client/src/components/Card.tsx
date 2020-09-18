@@ -1,27 +1,32 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import BCard from "react-bootstrap/Card";
 
 import "../style/Card.css";
 
 type CardProps = {
 	username: string;
 	text: string;
+	likes: number;
 };
-type CardState = {};
 
-export class Card extends Component<CardProps, CardState> {
-	render() {
-		return (
-			<div className="card">
-				<img src="http://robohash.org/jim" />
-				<div className="card_text">
-					<h2>@{this.props.username}</h2>
-					<p>{this.props.text}</p>
-					<ul>
-						<a>Like</a>
-						<a>More</a>
-					</ul>
-				</div>
+export const Card = (props: CardProps) => {
+	const [likes, setLikes] = useState(props.likes);
+
+	const handleLike = () => {
+		setLikes(likes + 1);
+	};
+
+	return (
+		<BCard>
+			<img src="http://robohash.org/jim" />
+			<div className="card_text">
+				<h2>@{props.username}</h2>
+				<p>{props.text}</p>
+				<ul>
+					<a onClick={handleLike}>Like ({likes})</a>
+					<a>More</a>
+				</ul>
 			</div>
-		);
-	}
-}
+		</BCard>
+	);
+};
