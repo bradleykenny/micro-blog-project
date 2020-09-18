@@ -17,7 +17,17 @@ app.use(bodyParser.json());
 
 const url = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PW}@cluster0.eisaa.mongodb.net/${process.env.MONGODB_DB}?retryWrites=true&w=majority`;
 
-mongoose.connect(url, { useNewUrlParser: true });
+mongoose
+	.connect(url, { useNewUrlParser: true })
+	.then((result) => {
+		console.log("connected to mongo");
+		console.log(result);
+	})
+	.catch((error) => {
+		console.log("NOT connected to mongo");
+		console.error(error);
+	});
+
 let db = mongoose.connection;
 
 app.set("port", 5000);
