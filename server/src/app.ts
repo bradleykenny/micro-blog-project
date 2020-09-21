@@ -2,12 +2,14 @@ require("dotenv").config();
 
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 
-import { BlogPost } from "./mongo/posts";
+import { Post } from "./mongo/post";
 
 let bodyParser = require("body-parser");
 const app = express();
 
+app.use(cors());
 app.use(
 	bodyParser.urlencoded({
 		extended: true,
@@ -19,11 +21,11 @@ const url = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PW}
 
 mongoose
 	.connect(url, { useNewUrlParser: true })
-	.then((result) => {
-		console.log("connected to mongo");
+	.then(() => {
+		console.log("Connected to MongoDB.");
 	})
 	.catch((error) => {
-		console.log("NOT connected to mongo");
+		console.log("NOT connected to MongoDB.");
 		console.error(error);
 	});
 
@@ -50,7 +52,7 @@ app.get("/user/:username", (req, res) => {
 // Posts...
 
 app.get("/posts", (req, res) => {
-	const instance = new BlogPost();
+	const instance = new Post();
 	return "1";
 });
 
