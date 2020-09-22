@@ -3,6 +3,7 @@ require("dotenv").config();
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import bcrypt from "bcrypt";
 
 import { Post, User } from "./mongo";
 
@@ -38,8 +39,19 @@ app.get("/ping", (req, res) => {
 
 // User information
 
+// TODO: expand the login functionality
 app.post("/login", async (req, res) => {
-	res.send("OK");
+	let { username, password } = req.body;
+	res.send(
+		await User.findOne({ id: username })
+			.then(async (result) => {
+				let encPW: string = result?.password
+					? result?.password.valueOf()
+					: "";
+				return await bcrypt.compare(password, encPW);
+			})
+			.catch((err) => err)
+	);
 });
 
 app.post("/register", async (req, res) => {
@@ -58,23 +70,41 @@ app.get("/user/:username", async (req, res) => {
 
 app.post("/follow/:username", async (req, res) => {
 	res.send(
-		await User.findOne({ id: req.params.username }).then((result) => {
-			let { followReq } = req.body;
-			if (!result?.follows.includes(followReq)) {
-				result?.follows.push(followReq);
-				result?.save();
-				return `${req.params.username} follows ${req.body.followReq}`;
-			}
+		await User.findOne({ id: req.params.username })
+			.then((result) => {
+				let { followReq } = req.body;
+				if (!result?.follows.includes(followReq)) {
+					result?.follows.push(followReq);
+					result?.save();
+					return `${req.params.username} follows ${req.body.followReq}`;
+				}
 
-			return `${req.params.username} already follows ${req.body.followReq}`;
-		})
+				return `${req.params.username} already follows ${req.body.followReq}`;
+			})
+			.catch((err) => err)
 	);
 });
 
 // Posts...
 
 app.get("/posts/all", async (req, res) => {
-	res.send("OK");
+	res.send(
+		await Post.find({})
+			.then((result) => {
+				return result;
+			})
+			.catch((err) => err)
+	);
+});
+
+app.get("/posts/:limit", async (req, res) => {
+	res.send(
+		await Post.find({})
+			.then((result) => {
+				return result.slice(0, Number(req.params.limit));
+			})
+			.catch((err) => err)
+	);
 });
 
 app.get("/posts/:username", async (req, res) => {
