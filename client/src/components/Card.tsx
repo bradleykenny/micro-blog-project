@@ -7,6 +7,7 @@ type CardProps = {
 	username: string;
 	text: string;
 	likes: number;
+	avatar: string;
 };
 
 export const Card = (props: CardProps) => {
@@ -18,7 +19,7 @@ export const Card = (props: CardProps) => {
 
 	return (
 		<BCard>
-			<img src="http://robohash.org/jim" />
+			<img src={props.avatar} />
 			<div className="card_text">
 				<h2>@{props.username}</h2>
 				<p>{props.text}</p>

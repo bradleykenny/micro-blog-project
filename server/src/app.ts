@@ -4,6 +4,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import { Post, User } from "./mongo";
 
@@ -42,16 +43,30 @@ app.get("/ping", (req, res) => {
 // TODO: expand the login functionality
 app.post("/login", async (req, res) => {
 	let { username, password } = req.body;
-	res.send(
-		await User.findOne({ id: username })
-			.then(async (result) => {
-				let encPW: string = result?.password
-					? result?.password.valueOf()
-					: "";
-				return await bcrypt.compare(password, encPW);
-			})
-			.catch((err) => err)
-	);
+	await User.findOne({ id: username })
+		.then(async (user) => {
+			let encPW: string = user?.password ? user?.password.valueOf() : "";
+
+			if (await bcrypt.compare(password, encPW)) {
+				const userForToken = {
+					id: user?.id,
+					avatar: user?.avatar,
+					follows: user?.follows,
+				};
+				const token = jwt.sign(userForToken, "123");
+
+				return res.status(200).json({
+					token,
+					id: user?.id,
+					avatar: user?.avatar,
+				});
+			} else {
+				return res
+					.status(401)
+					.json({ error: "invalid username or password" });
+			}
+		})
+		.catch((err) => err);
 });
 
 app.post("/register", async (req, res) => {
@@ -123,12 +138,6 @@ app.post("/posts/create", async (req, res) => {
 
 app.post("/posts/:id/like", async (req, res) => {
 	res.send("OK");
-});
-
-// Import test data into Mongo
-
-app.get("/data/import/test", (req, res) => {
-	return res.send("Test data imported.");
 });
 
 // Listening...

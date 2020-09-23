@@ -6,17 +6,25 @@ type CardListProps = {};
 
 export const CardList = (props: CardListProps) => {
 	const [cards, setCards] = useState([]);
+	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
 		axios.get("http://localhost:5000/posts/10").then((response) => {
 			setCards(response.data);
-			console.log(cards);
+			response.data.forEach((post: any) => {
+				axios
+					.get("http://localhost:5000/user/" + post.user)
+					.then((res3) => {
+						const { avatar, follows, id } = res3.data;
+						const temp = { avatar, follows, id };
+
+						post.user = temp;
+					});
+			});
 		});
-	});
+	}, []);
 
-	const cardsS = cards.map((c: any) => (
-		<Card username={c.user} text={c.content} likes={0} />
+	return cards.map((c: any) => (
+		<Card username={c.user} text={c.content} likes={0} avatar={c.avatar} />
 	));
-
-	return cardsS;
 };
