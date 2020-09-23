@@ -6,7 +6,7 @@ import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import { Post, User } from "./mongo";
+import { Post, IPost, User, IUser } from "./db";
 
 let bodyParser = require("body-parser");
 const app = express();
@@ -116,11 +116,19 @@ app.get("/posts/:limit", async (req, res) => {
 	res.send(
 		await Post.find({})
 			.then((result) => {
+				let newArr = result.slice(0, Number(req.params.limit));
+				getUsersForPosts(newArr);
 				return result.slice(0, Number(req.params.limit));
 			})
 			.catch((err) => err)
 	);
 });
+
+const getUsersForPosts = async (posts: IPost[]) => {
+	return posts.map(async (post: IPost) => {
+		return await User.findOne({ id: post.user }).then((res) => res);
+	});
+};
 
 app.get("/posts/:username", async (req, res) => {
 	res.send(

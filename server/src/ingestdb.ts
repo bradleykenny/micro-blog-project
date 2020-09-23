@@ -4,8 +4,8 @@ import mongoose from "mongoose";
 import fs from "fs";
 import bcrypt from "bcrypt";
 
-import { User } from "./mongo/user";
-import { Post } from "./mongo/post";
+import { User } from "./db/user";
+import { Post } from "./db/post";
 
 // Load data from JSON file into memory
 const rawData: string = fs.readFileSync("./sampledata.json").toString();
