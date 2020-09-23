@@ -2,6 +2,7 @@ require("dotenv").config();
 
 import mongoose from "mongoose";
 import fs from "fs";
+import bcrypt from "bcrypt";
 
 import { User } from "./mongo/user";
 import { Post } from "./mongo/post";
@@ -24,29 +25,33 @@ mongoose
 		console.error(error.message);
 	});
 
-data.users.map((record: any) => {
-	console.log(record);
-
-	const newUser = new User({
-		id: record.id,
-		password: record.password,
-		avatar: record.avatar,
-		followers: record.followers,
-	});
-
-	newUser
-		.save()
-		.then((result) => {
-			console.log("user saved to mongo");
-		})
-		.catch((error) => {
-			console.error("user already there");
+data.users.map((u: any) => {
+	u.password = bcrypt.hash(u.password, 10).then((encPW) => {
+		const newUser = new User({
+			id: u.id,
+			password: encPW,
+			avatar: u.avatar,
+			followers: u.followers,
 		});
+
+		console.log(newUser);
+
+		newUser
+			.save()
+			.then((result) => {
+				console.log("user saved to mongo");
+			})
+			.catch((error) => {
+				console.error("user already there");
+			});
+	});
 });
 
-data.posts.map((record: any) => {
-	console.log(record);
+console.log(data.users);
 
+data.users.map((record: any) => {});
+
+data.posts.map((record: any) => {
 	const newPost = new Post({
 		id: record.id,
 		user: record.user,
@@ -61,7 +66,6 @@ data.posts.map((record: any) => {
 			console.log("post saved to mongo");
 		})
 		.catch((error) => {
-			console.log(error);
 			console.error("post already there");
 		});
 });
