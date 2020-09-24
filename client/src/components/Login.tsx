@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BCard from "react-bootstrap/Card";
+
+import { JWT } from "../types/JWT";
 
 import "../style/Card.css";
 
 type LoginProps = {
-	user: string;
+	user: JWT;
 	setUser: Function;
 };
 
@@ -22,7 +24,6 @@ export const Login = (props: LoginProps) => {
 		axios
 			.post(baseURL + "login", { username, password })
 			.then((response) => {
-				console.log(response.data);
 				setUser(response.data);
 			});
 	};
@@ -32,7 +33,9 @@ export const Login = (props: LoginProps) => {
 			<form onSubmit={handleLogin}>
 				<div className="row">
 					<div className="four columns">
-						<label htmlFor="username">Username</label>
+						<label htmlFor="username">
+							{user ? user.id : "Username"}
+						</label>
 						<input
 							type="text"
 							name="username"
