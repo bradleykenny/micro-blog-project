@@ -6,7 +6,6 @@ type CardListProps = {};
 
 export const CardList = (props: CardListProps) => {
 	const [cards, setCards] = useState([]);
-	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
 		axios.get("http://localhost:5000/posts/10").then((response) => {

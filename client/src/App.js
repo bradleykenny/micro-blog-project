@@ -17,6 +17,18 @@ const App = () => {
 							<CardList />
 						</Container>
 					</Route>
+					<Route path="/about">
+						<NavBar />
+						<Container style={{ paddingTop: "100px" }}>
+							<CardList />
+						</Container>
+					</Route>
+					<Route path="/profile">
+						<NavBar />
+						<Container style={{ paddingTop: "100px" }}>
+							<CardList />
+						</Container>
+					</Route>
 				</Switch>
 			</Router>
 		</div>

@@ -6,7 +6,7 @@ import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import { Post, IPost, User, IUser } from "./db";
+import { Post, IPost, TPost, User, IUser } from "./db";
 
 let bodyParser = require("body-parser");
 const app = express();
@@ -115,20 +115,16 @@ app.get("/posts/all", async (req, res) => {
 app.get("/posts/:limit", async (req, res) => {
 	res.send(
 		await Post.find({})
-			.then((result) => {
+			.then(async (result) => {
 				let newArr = result.slice(0, Number(req.params.limit));
-				getUsersForPosts(newArr);
-				return result.slice(0, Number(req.params.limit));
+				return (await getUsersForPosts(newArr)).slice(
+					0,
+					Number(req.params.limit)
+				);
 			})
 			.catch((err) => err)
 	);
 });
-
-const getUsersForPosts = async (posts: IPost[]) => {
-	return posts.map(async (post: IPost) => {
-		return await User.findOne({ id: post.user }).then((res) => res);
-	});
-};
 
 app.get("/posts/:username", async (req, res) => {
 	res.send(
@@ -147,6 +143,28 @@ app.post("/posts/create", async (req, res) => {
 app.post("/posts/:id/like", async (req, res) => {
 	res.send("OK");
 });
+
+// Helper functions
+
+const getUsersForPosts = async (posts: IPost[]) => {
+	const usersInPromise = posts.map(async (post: IPost) => {
+		return await User.findOne({ id: post.user }).then((res) => res);
+	});
+
+	const users = await Promise.all(usersInPromise).then((res) => res);
+	return posts.map((p: IPost, idx: number) => {
+		let { id, user, timestamp, content, likes } = p;
+		let temp: TPost = {
+			avatar: users[idx]?.avatar.valueOf(),
+			id: id,
+			user: user,
+			timestamp: timestamp,
+			content: content,
+			likes: likes,
+		};
+		return temp;
+	});
+};
 
 // Listening...
 
