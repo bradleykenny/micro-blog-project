@@ -53,7 +53,10 @@ app.post("/login", async (req, res) => {
 					avatar: user?.avatar,
 					follows: user?.follows,
 				};
-				const token = jwt.sign(userForToken, "123");
+				const token = jwt.sign(
+					userForToken,
+					String(process.env.SECRETKEY)
+				);
 
 				return res.status(200).json({
 					token,
