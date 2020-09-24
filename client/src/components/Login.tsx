@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
 import BCard from "react-bootstrap/Card";
+import BForm from "react-bootstrap/Form";
+import BButton from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import { JWT } from "../types/JWT";
 
@@ -25,36 +31,46 @@ export const Login = (props: LoginProps) => {
 			.post(baseURL + "login", { username, password })
 			.then((response) => {
 				setUser(response.data);
+				localStorage.setItem("user", JSON.stringify(response.data));
 			});
 	};
 
 	return (
-		<BCard>
-			<form onSubmit={handleLogin}>
-				<div className="row">
-					<div className="four columns">
-						<label htmlFor="username">
-							{user ? user.id : "Username"}
-						</label>
-						<input
-							type="text"
-							name="username"
-							onChange={(e) => setUsername(e.target.value)}
-						/>
-					</div>
-					<div className="four columns">
-						<label htmlFor="password">Password</label>
-						<input
-							name="password"
-							type="password"
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-					</div>
-					<div className="three columns">
-						<input type="submit" value="Login" />
-					</div>
-				</div>
-			</form>
-		</BCard>
+		<Container>
+			<Row>
+				<Col></Col>
+				<Col xs={6}>
+					<BCard>
+						<BForm onSubmit={handleLogin}>
+							<BForm.Group controlId="formBasicEmail">
+								<BForm.Label>Username</BForm.Label>
+								<BForm.Control
+									type="text"
+									placeholder="Enter username"
+									onChange={(e) =>
+										setUsername(e.target.value)
+									}
+								/>
+							</BForm.Group>
+							<BForm.Group controlId="formBasicPassword">
+								<BForm.Label>Password</BForm.Label>
+								<BForm.Control
+									type="password"
+									placeholder="Password"
+									value={password}
+									onChange={(e) =>
+										setPassword(e.target.value)
+									}
+								/>
+							</BForm.Group>
+							<BButton variant="primary" type="submit">
+								Submit
+							</BButton>
+						</BForm>
+					</BCard>
+				</Col>
+				<Col></Col>
+			</Row>
+		</Container>
 	);
 };
