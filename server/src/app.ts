@@ -142,10 +142,20 @@ app.get("/posts/:username", async (req, res) => {
 });
 
 app.post("/posts/create", async (req, res) => {
+	let formattedContent: string = req.body.content;
+	let atRegex: RegExp = new RegExp("@[a-zA-Z]+");
+	let atUser: string[] = formattedContent.match(atRegex)!;
+	if (atUser) {
+		formattedContent = formattedContent.replace(
+			new RegExp("@[a-zA-Z]+"),
+			atTagForUser(atUser[0].substring(1))
+		);
+	}
+
 	const newPost = new Post({
 		user: req.body.user,
-		timestamp: dateformat(Date.now(), "yy-mm-dd HH:MM:ss"), // 2020-07-15 05:45:02
-		content: req.body.content,
+		timestamp: dateformat(Date.now(), "yy-mm-dd HH:MM:ss"),
+		content: formattedContent,
 		likes: req.body.likes,
 	});
 
@@ -184,6 +194,10 @@ const getUsersForPosts = async (posts: IPost[]) => {
 		};
 		return temp;
 	});
+};
+
+const atTagForUser = (user: string) => {
+	return '<a href="/profile/"' + user + '">@' + user + "</a>";
 };
 
 // Listening...

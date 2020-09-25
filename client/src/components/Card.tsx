@@ -22,7 +22,7 @@ export const Card = (props: CardProps) => {
 			<img src={props.avatar} />
 			<div className="card_text">
 				<h2>@{props.username}</h2>
-				<p>{props.text}</p>
+				<p dangerouslySetInnerHTML={{ __html: props.text }}></p>
 				<ul>
 					<a onClick={handleLike}>Like ({likes})</a>
 					<a>More</a>
