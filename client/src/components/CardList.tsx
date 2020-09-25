@@ -13,9 +13,9 @@ export const CardList = (props: CardListProps) => {
 			response.data.forEach((post: any) => {
 				axios
 					.get("http://localhost:5000/user/" + post.user)
-					.then((res3) => {
-						const { avatar, follows, id } = res3.data;
-						const temp = { avatar, follows, id };
+					.then((res) => {
+						const { avatar, follows, username } = res.data;
+						const temp = { avatar, follows, username };
 
 						post.user = temp;
 					});

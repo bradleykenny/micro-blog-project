@@ -14,17 +14,17 @@ type HomeProps = {
 export const Home = (props: HomeProps) => {
 	return (
 		<div>
-			<NavBar username={props.user ? props.user.id : ""} />
+			<NavBar username={props.user ? props.user.username : ""} />
 			<Container style={{ paddingTop: "100px" }}>
 				<Row>
 					<Col xs={4}>
 						{props.user && (
 							<BCard>
-								<a href={"/profile/" + props.user.id}>
+								<a href={"/profile/" + props.user.username}>
 									<img src={props.user.avatar} />
 								</a>
 								<div className="card_text">
-									<h2>@{props.user.id}</h2>
+									<h2>@{props.user.username}</h2>
 									<p>
 										Followers: {props.user.follows.length}
 									</p>

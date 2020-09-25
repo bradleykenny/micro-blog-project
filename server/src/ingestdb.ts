@@ -28,7 +28,7 @@ mongoose
 data.users.map((u: any) => {
 	u.password = bcrypt.hash(u.password, 10).then((encPW) => {
 		const newUser = new User({
-			id: u.id,
+			username: u.id,
 			password: encPW,
 			avatar: u.avatar,
 			followers: u.followers,

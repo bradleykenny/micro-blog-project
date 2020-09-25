@@ -1,6 +1,6 @@
 export type JWT = {
 	token: string;
-	id: string;
+	username: string;
 	avatar: string;
 	follows: string[];
 };

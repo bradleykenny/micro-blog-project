@@ -44,13 +44,13 @@ app.get("/ping", (req, res) => {
 // TODO: expand the login functionality
 app.post("/login", async (req, res) => {
 	let { username, password } = req.body;
-	await User.findOne({ id: username })
+	await User.findOne({ username: username })
 		.then(async (user) => {
 			let encPW: string = user?.password ? user?.password.valueOf() : "";
 
 			if (await bcrypt.compare(password, encPW)) {
 				const userForToken = {
-					id: user?.id,
+					username: user?.username,
 					avatar: user?.avatar,
 					follows: user?.follows,
 				};
@@ -61,7 +61,7 @@ app.post("/login", async (req, res) => {
 
 				return res.status(200).json({
 					token,
-					id: user?.id,
+					username: user?.username,
 					avatar: user?.avatar,
 					follows: user?.follows,
 				});
@@ -75,12 +75,19 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
+	const { username, password, password2, avatar } = req.body;
+	User.create({
+		username: username,
+		password: password,
+		avatar: avatar,
+		follows: [],
+	});
 	res.send("OK");
 });
 
 app.get("/user/:username", async (req, res) => {
 	res.send(
-		await User.findOne({ id: req.params.username })
+		await User.findOne({ username: req.params.username })
 			.then((result) => {
 				return result;
 			})
@@ -90,7 +97,7 @@ app.get("/user/:username", async (req, res) => {
 
 app.post("/follow/:username", async (req, res) => {
 	res.send(
-		await User.findOne({ id: req.params.username })
+		await User.findOne({ username: req.params.username })
 			.then((result) => {
 				let { followReq } = req.body;
 				if (!result?.follows.includes(followReq)) {
@@ -179,7 +186,7 @@ app.post("/posts/:id/like", async (req, res) => {
 
 const getUsersForPosts = async (posts: IPost[]) => {
 	const usersInPromise = posts.map(async (post: IPost) => {
-		return await User.findOne({ id: post.user }).then((res) => res);
+		return await User.findOne({ username: post.user }).then((res) => res);
 	});
 
 	const users = await Promise.all(usersInPromise).then((res) => res);

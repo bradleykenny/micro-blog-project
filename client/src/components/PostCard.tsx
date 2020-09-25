@@ -22,17 +22,18 @@ export const PostCard = (props: PostCardProps) => {
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
-		axios
-			.post("http://localhost:5000/posts/create", {
-				user: props.user.id,
-				content: content,
-				likes: [],
-			})
-			.then((res) => {
-				alert("Content posted!");
-				console.log(res);
-				setContent("");
-			});
+		if (content.length > 0) {
+			axios
+				.post("http://localhost:5000/posts/create", {
+					user: props.user.username,
+					content: content,
+					likes: [],
+				})
+				.then((res) => {
+					alert("Content posted!");
+					setContent("");
+				});
+		}
 	};
 
 	const handleChange = (e: any) => {
@@ -49,7 +50,6 @@ export const PostCard = (props: PostCardProps) => {
 	};
 
 	const handleShowHide = () => {
-		console.log(showForm);
 		setShowForm(!showForm);
 	};
 
@@ -99,14 +99,13 @@ export const PostCard = (props: PostCardProps) => {
 		} else {
 			return (
 				<Container>
-					<BCard>
+					<BCard style={{ paddingTop: "10px" }}>
 						<BCard.Body>
 							<Button
 								variant="primary"
 								type="submit"
 								className="btn-block"
 								onClick={handleShowHide}
-								style={{ marginTop: "25px" }}
 							>
 								Create a post
 							</Button>

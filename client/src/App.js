@@ -43,7 +43,7 @@ const App = () => {
 						</Container>
 					</Route>
 					<Route path="/login">
-						<NavBar username={user ? user.id : ""} />
+						<NavBar username={user ? user.username : ""} />
 						<Container style={{ paddingTop: "100px" }}>
 							<Login user={user} setUser={setUser} />
 						</Container>
