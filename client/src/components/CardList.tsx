@@ -23,7 +23,16 @@ export const CardList = (props: CardListProps) => {
 		});
 	}, []);
 
-	return cards.map((c: any) => (
-		<Card username={c.user} text={c.content} likes={0} avatar={c.avatar} />
-	));
+	return (
+		<>
+			{cards.map((c: any) => (
+				<Card
+					username={c.user}
+					text={c.content}
+					likes={0}
+					avatar={c.avatar}
+				/>
+			))}
+		</>
+	);
 };

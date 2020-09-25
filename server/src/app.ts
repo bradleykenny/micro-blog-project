@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dateformat from "dateformat";
 
 import { Post, IPost, TPost, User, IUser } from "./db";
 
@@ -62,6 +63,7 @@ app.post("/login", async (req, res) => {
 					token,
 					id: user?.id,
 					avatar: user?.avatar,
+					follows: user?.follows,
 				});
 			} else {
 				return res
@@ -140,7 +142,22 @@ app.get("/posts/:username", async (req, res) => {
 });
 
 app.post("/posts/create", async (req, res) => {
-	res.send("OK");
+	const newPost = new Post({
+		user: req.body.user,
+		timestamp: dateformat(Date.now(), "yy-mm-dd HH:MM:ss"), // 2020-07-15 05:45:02
+		content: req.body.content,
+		likes: req.body.likes,
+	});
+
+	newPost
+		.save()
+		.then((result) => {
+			res.send("post saved to mongo");
+		})
+		.catch((error) => {
+			console.error(error);
+			res.send("error");
+		});
 });
 
 app.post("/posts/:id/like", async (req, res) => {
