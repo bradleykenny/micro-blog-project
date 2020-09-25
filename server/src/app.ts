@@ -120,6 +120,7 @@ app.get("/posts/all", async (req, res) => {
 app.get("/posts/:limit", async (req, res) => {
 	res.send(
 		await Post.find({})
+			.sort({ timestamp: -1 })
 			.then(async (result) => {
 				let newArr = result.slice(0, Number(req.params.limit));
 				return (await getUsersForPosts(newArr)).slice(

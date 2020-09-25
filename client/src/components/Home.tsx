@@ -20,7 +20,9 @@ export const Home = (props: HomeProps) => {
 					<Col xs={4}>
 						{props.user && (
 							<BCard>
-								<img src={props.user.avatar} />
+								<a href={"/profile/" + props.user.id}>
+									<img src={props.user.avatar} />
+								</a>
 								<div className="card_text">
 									<h2>@{props.user.id}</h2>
 									<p>

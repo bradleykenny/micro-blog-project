@@ -31,6 +31,7 @@ export const CardList = (props: CardListProps) => {
 					text={c.content}
 					likes={0}
 					avatar={c.avatar}
+					timestamp={c.timestamp}
 				/>
 			))}
 		</>

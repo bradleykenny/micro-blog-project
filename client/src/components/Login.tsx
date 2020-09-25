@@ -11,6 +11,8 @@ import Col from "react-bootstrap/Col";
 import { JWT } from "../types/JWT";
 
 import "../style/Card.css";
+import { useHistory } from "react-router";
+import { Redirect } from "react-router-dom";
 
 type LoginProps = {
 	user: JWT;
@@ -20,6 +22,7 @@ type LoginProps = {
 export const Login = (props: LoginProps) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const history = useHistory();
 
 	const { user, setUser } = props;
 
@@ -32,8 +35,13 @@ export const Login = (props: LoginProps) => {
 			.then((response) => {
 				setUser(response.data);
 				localStorage.setItem("user", JSON.stringify(response.data));
+				history.push("/home");
 			});
 	};
+
+	if (user) {
+		return <Redirect to="/home" />;
+	}
 
 	return (
 		<Container>

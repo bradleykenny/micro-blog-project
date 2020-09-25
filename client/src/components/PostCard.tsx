@@ -67,12 +67,14 @@ export const PostCard = (props: PostCardProps) => {
 									>
 										Hide Form
 									</p>
-									<BCard.Title className="text-center">
+									{/* <BCard.Title className="text-center">
 										<h1>Create post</h1>
-									</BCard.Title>
+									</BCard.Title> */}
 									<Form onSubmit={handleSubmit}>
 										<Form.Group controlId="formUsername">
-											<Form.Label>Content</Form.Label>
+											<Form.Label>
+												What do you want to say?
+											</Form.Label>
 											<Form.Control
 												name="content"
 												type="text"
@@ -97,8 +99,8 @@ export const PostCard = (props: PostCardProps) => {
 		} else {
 			return (
 				<Container>
-					<Row className="d-flex justify-content-center">
-						<Col sm={4} className="align-items-center">
+					<BCard>
+						<BCard.Body>
 							<Button
 								variant="primary"
 								type="submit"
@@ -108,8 +110,8 @@ export const PostCard = (props: PostCardProps) => {
 							>
 								Create a post
 							</Button>
-						</Col>
-					</Row>
+						</BCard.Body>
+					</BCard>
 				</Container>
 			);
 		}
