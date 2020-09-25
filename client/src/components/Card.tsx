@@ -14,9 +14,14 @@ type CardProps = {
 
 export const Card = (props: CardProps) => {
 	const [likes, setLikes] = useState(props.likes);
+	const [liked, setLiked] = useState(false);
 
 	const handleLike = () => {
 		setLikes(likes + 1);
+	};
+
+	const handleLiked = () => {
+		setLiked(!liked);
 	};
 
 	const ts: number = Date.parse(props.timestamp);
@@ -31,7 +36,7 @@ export const Card = (props: CardProps) => {
 				<h2>@{props.username}</h2>
 				<p dangerouslySetInnerHTML={{ __html: props.text }}></p>
 				<ul>
-					<a onClick={handleLike}>Like ({likes})</a>
+					<a onClick={handleLiked}>{liked ? "Unlike" : "Like"}</a>
 					<a>More</a>
 				</ul>
 				<h6>{formatDate}</h6>

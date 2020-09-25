@@ -61,12 +61,17 @@ export const PostCard = (props: PostCardProps) => {
 						<Col className="align-items-center">
 							<BCard>
 								<BCard.Body>
-									<p
-										style={{ float: "right" }}
+									<Button
+										variant="secondary"
+										size="sm"
+										style={{
+											float: "right",
+											marginTop: "-5px",
+										}}
 										onClick={handleShowHide}
 									>
-										Hide Form
-									</p>
+										Hide
+									</Button>
 									{/* <BCard.Title className="text-center">
 										<h1>Create post</h1>
 									</BCard.Title> */}

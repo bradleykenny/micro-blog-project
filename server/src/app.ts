@@ -130,10 +130,8 @@ app.get("/posts/:limit", async (req, res) => {
 			.sort({ timestamp: -1 })
 			.then(async (result) => {
 				let newArr = result.slice(0, Number(req.params.limit));
-				return (await getUsersForPosts(newArr)).slice(
-					0,
-					Number(req.params.limit)
-				);
+				console.log(newArr);
+				return await getUsersForPosts(newArr);
 			})
 			.catch((err) => err)
 	);
@@ -162,7 +160,7 @@ app.post("/posts/create", async (req, res) => {
 
 	const newPost = new Post({
 		user: req.body.user,
-		timestamp: dateformat(Date.now(), "yy-mm-dd HH:MM:ss"),
+		timestamp: dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss"),
 		content: formattedContent,
 		likes: req.body.likes,
 	});

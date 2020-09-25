@@ -14,7 +14,6 @@ type HomeProps = {
 export const Home = (props: HomeProps) => {
 	return (
 		<div>
-			<NavBar username={props.user ? props.user.username : ""} />
 			<Container style={{ paddingTop: "100px" }}>
 				<Row>
 					<Col xs={4}>

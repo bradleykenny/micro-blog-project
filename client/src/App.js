@@ -25,25 +25,23 @@ const App = () => {
 
 	return (
 		<div className="App">
+			<NavBar username={user ? user.username : ""} />
 			<Router>
 				<Switch>
 					<Route path="/home">
 						<Home user={user} />
 					</Route>
 					<Route path="/about">
-						<NavBar />
 						<Container style={{ paddingTop: "100px" }}>
 							<CardList />
 						</Container>
 					</Route>
 					<Route path="/profile">
-						<NavBar />
 						<Container style={{ paddingTop: "100px" }}>
 							<CardList />
 						</Container>
 					</Route>
 					<Route path="/login">
-						<NavBar username={user ? user.username : ""} />
 						<Container style={{ paddingTop: "100px" }}>
 							<Login user={user} setUser={setUser} />
 						</Container>
