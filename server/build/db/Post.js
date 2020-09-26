@@ -14,4 +14,4 @@ const PostSchema = new Schema({
     likes: [String],
 });
 exports.Post = mongoose_1.default.model("Post", PostSchema);
-//# sourceMappingURL=post.js.map
+//# sourceMappingURL=Post.js.map

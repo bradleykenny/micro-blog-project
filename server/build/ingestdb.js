@@ -7,8 +7,8 @@ require("dotenv").config();
 const mongoose_1 = __importDefault(require("mongoose"));
 const fs_1 = __importDefault(require("fs"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const user_1 = require("./db/user");
-const post_1 = require("./db/post");
+const User_1 = require("./db/User");
+const Post_1 = require("./db/Post");
 const rawData = fs_1.default.readFileSync("./sampledata.json").toString();
 const data = JSON.parse(rawData);
 const url = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PW}@cluster0.eisaa.mongodb.net/${process.env.MONGODB_DB}?retryWrites=true&w=majority`;
@@ -24,7 +24,7 @@ mongoose_1.default
 });
 data.users.map((u) => {
     u.password = bcrypt_1.default.hash(u.password, 10).then((encPW) => {
-        const newUser = new user_1.User({
+        const newUser = new User_1.User({
             username: u.id,
             password: encPW,
             avatar: u.avatar,
@@ -44,7 +44,7 @@ data.users.map((u) => {
 console.log(data.users);
 data.users.map((record) => { });
 data.posts.map((record) => {
-    const newPost = new post_1.Post({
+    const newPost = new Post_1.Post({
         id: record.id,
         user: record.user,
         timestamp: record.timestamp,
