@@ -10,9 +10,7 @@
 /coverage
 
 # production
-/build
 /dist
-/client/build
 
 # misc
 .DS_Store
