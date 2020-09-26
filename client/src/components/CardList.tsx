@@ -8,11 +8,11 @@ export const CardList = (props: CardListProps) => {
 	const [cards, setCards] = useState([]);
 
 	useEffect(() => {
-		axios.get("http://localhost:5000/posts/10").then((response) => {
+		axios.get("http://localhost:5000/api/posts/10").then((response) => {
 			setCards(response.data);
 			response.data.forEach((post: any) => {
 				axios
-					.get("http://localhost:5000/user/" + post.user)
+					.get("http://localhost:5000/api/user/" + post.user)
 					.then((res) => {
 						const { avatar, follows, username } = res.data;
 						const temp = { avatar, follows, username };

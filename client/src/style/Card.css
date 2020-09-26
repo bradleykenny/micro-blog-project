@@ -43,11 +43,12 @@
 	margin: 10px auto;
 }
 
-.card > .card_text > ul > a {
+.card > .card_text > ul > p {
 	color: rgb(81, 84, 238);
 	margin: 0px 10px 0px 0px;
 	padding: 0px;
 	cursor: pointer;
+	display: inline-block;
 }
 
 .card > .card_text > h6 {

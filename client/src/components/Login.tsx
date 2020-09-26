@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 import BCard from "react-bootstrap/Card";
@@ -26,12 +26,10 @@ export const Login = (props: LoginProps) => {
 
 	const { user, setUser } = props;
 
-	const baseURL = "http://localhost:5000/";
-
 	const handleLogin = (e: any) => {
 		e.preventDefault();
 		axios
-			.post(baseURL + "login", { username, password })
+			.post("http://localhost:5000/api/login", { username, password })
 			.then((response) => {
 				setUser(response.data);
 				localStorage.setItem("user", JSON.stringify(response.data));

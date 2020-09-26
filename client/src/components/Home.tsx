@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import BCard from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { NavBar, CardList, PostCard } from "./";
+import { CardList, PostCard } from "./";
 import { JWT } from "../types/JWT";
 
 type HomeProps = {
@@ -20,7 +20,7 @@ export const Home = (props: HomeProps) => {
 						{props.user && (
 							<BCard>
 								<a href={"/profile/" + props.user.username}>
-									<img src={props.user.avatar} />
+									<img src={props.user.avatar} alt="Avatar" />
 								</a>
 								<div className="card_text">
 									<h2>@{props.user.username}</h2>

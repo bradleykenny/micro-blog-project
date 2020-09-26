@@ -8,8 +8,6 @@ import {
 import "./App.css";
 
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import { CardList, NavBar, Login, Home } from "./components";
 import "bootstrap/dist/css/bootstrap.min.css";
 

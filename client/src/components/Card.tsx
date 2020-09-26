@@ -13,12 +13,7 @@ type CardProps = {
 };
 
 export const Card = (props: CardProps) => {
-	const [likes, setLikes] = useState(props.likes);
 	const [liked, setLiked] = useState(false);
-
-	const handleLike = () => {
-		setLikes(likes + 1);
-	};
 
 	const handleLiked = () => {
 		setLiked(!liked);
@@ -30,14 +25,14 @@ export const Card = (props: CardProps) => {
 	return (
 		<BCard>
 			<a href={"/profile/" + props.username}>
-				<img src={props.avatar} />
+				<img alt="Avatar" src={props.avatar} />
 			</a>
 			<div className="card_text">
 				<h2>@{props.username}</h2>
 				<p dangerouslySetInnerHTML={{ __html: props.text }}></p>
 				<ul>
-					<a onClick={handleLiked}>{liked ? "Unlike" : "Like"}</a>
-					<a>More</a>
+					<p onClick={handleLiked}>{liked ? "Unlike" : "Like"}</p>
+					<p> More</p>
 				</ul>
 				<h6>{formatDate}</h6>
 			</div>

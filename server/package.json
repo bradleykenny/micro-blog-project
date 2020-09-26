@@ -29,5 +29,6 @@
 		"type": "git",
 		"url": "git+https://github.com/MQCOMP3120-2020/individual-web-development-task-bradleykenny.git"
 	},
-	"devDependencies": {}
+	"devDependencies": {},
+	"proxy": "http://localhost:3000"
 }

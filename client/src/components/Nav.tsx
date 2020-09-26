@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Nav from "react-bootstrap/Nav";
 
 import "../style/Nav.css";
@@ -23,9 +23,15 @@ export const NavBar = (props: NavProps) => {
 				<Nav.Link href="/about">About</Nav.Link>
 			</Nav.Item>
 			<Nav.Item>
-				<Nav.Link eventKey="3" href="/profile">
-					{props.username ? "@" + props.username : "Profile"}
-				</Nav.Link>
+				{props.username ? (
+					<Nav.Link eventKey="3" href="/profile">
+						@{props.username}
+					</Nav.Link>
+				) : (
+					<Nav.Link eventKey="3" href="/login">
+						Login
+					</Nav.Link>
+				)}
 			</Nav.Item>
 		</Nav>
 	);

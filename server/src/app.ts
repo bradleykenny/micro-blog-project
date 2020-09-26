@@ -19,6 +19,7 @@ app.use(
 	})
 );
 app.use(bodyParser.json());
+app.use(express.static("../client/build"));
 
 const url = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PW}@cluster0.eisaa.mongodb.net/${process.env.MONGODB_DB}?retryWrites=true&w=majority`;
 
@@ -35,14 +36,14 @@ mongoose
 app.set("port", 5000);
 
 // Test route to ensure up and running
-app.get("/ping", (req, res) => {
+app.get("/api/ping", (req, res) => {
 	return res.send("pong");
 });
 
 // User information
 
 // TODO: expand the login functionality
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
 	let { username, password } = req.body;
 	await User.findOne({ username: username })
 		.then(async (user) => {
@@ -74,7 +75,7 @@ app.post("/login", async (req, res) => {
 		.catch((err) => err);
 });
 
-app.post("/register", async (req, res) => {
+app.post("/api/register", async (req, res) => {
 	const { username, password, password2, avatar } = req.body;
 	User.create({
 		username: username,
@@ -85,7 +86,7 @@ app.post("/register", async (req, res) => {
 	res.send("OK");
 });
 
-app.get("/user/:username", async (req, res) => {
+app.get("/api/user/:username", async (req, res) => {
 	res.send(
 		await User.findOne({ username: req.params.username })
 			.then((result) => {
@@ -95,7 +96,7 @@ app.get("/user/:username", async (req, res) => {
 	);
 });
 
-app.post("/follow/:username", async (req, res) => {
+app.post("/api/follow/:username", async (req, res) => {
 	res.send(
 		await User.findOne({ username: req.params.username })
 			.then((result) => {
@@ -114,7 +115,7 @@ app.post("/follow/:username", async (req, res) => {
 
 // Posts...
 
-app.get("/posts/all", async (req, res) => {
+app.get("/api/posts/all", async (req, res) => {
 	res.send(
 		await Post.find({})
 			.then((result) => {
@@ -124,20 +125,19 @@ app.get("/posts/all", async (req, res) => {
 	);
 });
 
-app.get("/posts/:limit", async (req, res) => {
+app.get("/api/posts/:limit", async (req, res) => {
 	res.send(
 		await Post.find({})
 			.sort({ timestamp: -1 })
 			.then(async (result) => {
 				let newArr = result.slice(0, Number(req.params.limit));
-				console.log(newArr);
 				return await getUsersForPosts(newArr);
 			})
 			.catch((err) => err)
 	);
 });
 
-app.get("/posts/:username", async (req, res) => {
+app.get("/api/posts/:username", async (req, res) => {
 	res.send(
 		await Post.find({ user: req.params.username })
 			.then((result) => {
@@ -147,7 +147,7 @@ app.get("/posts/:username", async (req, res) => {
 	);
 });
 
-app.post("/posts/create", async (req, res) => {
+app.post("/api/posts/create", async (req, res) => {
 	let formattedContent: string = req.body.content;
 	let atRegex: RegExp = new RegExp("@[a-zA-Z]+");
 	let atUser: string[] = formattedContent.match(atRegex)!;
@@ -176,7 +176,7 @@ app.post("/posts/create", async (req, res) => {
 		});
 });
 
-app.post("/posts/:id/like", async (req, res) => {
+app.post("/api/posts/:id/like", async (req, res) => {
 	res.send("OK");
 });
 
