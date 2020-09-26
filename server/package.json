@@ -22,7 +22,7 @@
 		"mongoose": "^5.9.28"
 	},
 	"scripts": {
-		"start": "npm run build && node build/app.js",
+		"start": "node build/app.js",
 		"build": "tsc"
 	},
 	"repository": {
