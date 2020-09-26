@@ -38,7 +38,7 @@ mongoose_1.default
     console.log("NOT connected to MongoDB.");
     console.error(error);
 });
-app.set("port", 5000);
+app.set("port", process.env.PORT || 5000);
 app.get("/api/ping", (req, res) => {
     return res.send("pong");
 });
