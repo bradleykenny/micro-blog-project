@@ -1,2 +1,2 @@
-export { User, IUser } from "./user";
-export { Post, IPost, TPost } from "./post";
+export { User, IUser } from "./User";
+export { Post, IPost, TPost } from "./Post";
