@@ -33,7 +33,7 @@ mongoose
 		console.error(error);
 	});
 
-app.set("port", 5000);
+app.set("port", process.env.PORT || 5000);
 
 // Test route to ensure up and running
 app.get("/api/ping", (req, res) => {
