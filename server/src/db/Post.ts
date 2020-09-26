@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { IUser } from "./user";
 
 const Schema = mongoose.Schema;
 
