@@ -23,9 +23,17 @@ export const Home = (props: HomeProps) => {
 									<img src={props.user.avatar} alt="Avatar" />
 								</a>
 								<div className="card_text">
-									<h2>@{props.user.username}</h2>
+									<a href={"/profile/" + props.user.username}>
+										<h2>@{props.user.username}</h2>
+									</a>
+									<p>
+										<i>Some information here coming soon</i>
+									</p>
 									<p>
 										Followers: {props.user.follows.length}
+									</p>
+									<p>
+										Following: {props.user.follows.length}
 									</p>
 								</div>
 							</BCard>

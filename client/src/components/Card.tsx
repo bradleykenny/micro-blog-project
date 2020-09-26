@@ -28,7 +28,9 @@ export const Card = (props: CardProps) => {
 				<img alt="Avatar" src={props.avatar} />
 			</a>
 			<div className="card_text">
-				<h2>@{props.username}</h2>
+				<a href={"/profile/" + props.username}>
+					<h2>@{props.username}</h2>
+				</a>
 				<p dangerouslySetInnerHTML={{ __html: props.text }}></p>
 				<ul>
 					<p onClick={handleLiked}>{liked ? "Unlike" : "Like"}</p>
