@@ -1,5 +1,6 @@
 import React from "react";
 import Nav from "react-bootstrap/Nav";
+import { useHistory } from "react-router";
 
 import "../style/Nav.css";
 
@@ -8,6 +9,13 @@ type NavProps = {
 };
 
 export const NavBar = (props: NavProps) => {
+	const history = useHistory();
+
+	const handleLogout = () => {
+		localStorage.removeItem("user");
+		history.push("/home");
+	};
+
 	return (
 		<Nav variant="pills" activeKey="1" id="nav">
 			<a href="/home" className="logo">
@@ -22,17 +30,30 @@ export const NavBar = (props: NavProps) => {
 			<Nav.Item>
 				<Nav.Link href="/about">About</Nav.Link>
 			</Nav.Item>
-			<Nav.Item>
-				{props.username ? (
-					<Nav.Link eventKey="3" href="/profile">
-						@{props.username}
-					</Nav.Link>
-				) : (
+			{props.username ? (
+				<>
+					<Nav.Item>
+						<Nav.Link eventKey="3" href="/profile">
+							@{props.username}
+						</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link
+							eventKey="3"
+							href="/home"
+							onClick={handleLogout}
+						>
+							Logout
+						</Nav.Link>
+					</Nav.Item>
+				</>
+			) : (
+				<Nav.Item>
 					<Nav.Link eventKey="3" href="/login">
 						Login
 					</Nav.Link>
-				)}
-			</Nav.Item>
+				</Nav.Item>
+			)}
 		</Nav>
 	);
 };

@@ -4,3 +4,4 @@ export { Home } from "./Home";
 export { Login } from "./Login";
 export { PostCard } from "./PostCard";
 export { NavBar } from "./Nav";
+export { Register } from "./Register";

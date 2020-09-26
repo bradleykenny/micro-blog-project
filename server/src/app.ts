@@ -76,14 +76,22 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.post("/api/register", async (req, res) => {
-	const { username, password, password2, avatar } = req.body;
-	User.create({
-		username: username,
-		password: password,
-		avatar: avatar,
-		follows: [],
-	});
-	res.send("OK");
+	const { username, password, password2 } = req.body;
+	if (password === password2) {
+		bcrypt.hash(password, 10).then((encPW) => {
+			User.create({
+				username: username,
+				password: encPW,
+				avatar: "https://robohash.org/" + username,
+				follows: [],
+			}).then((result) => {
+				res.send("OK");
+			});
+		});
+	} else {
+		console.log(password, password2);
+		res.send("passwords not the same");
+	}
 });
 
 app.get("/api/user/:username", async (req, res) => {

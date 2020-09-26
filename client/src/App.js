@@ -8,7 +8,7 @@ import {
 import "./App.css";
 
 import Container from "react-bootstrap/Container";
-import { CardList, NavBar, Login, Home } from "./components";
+import { CardList, NavBar, Login, Home, Register } from "./components";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
@@ -42,6 +42,11 @@ const App = () => {
 					<Route path="/login">
 						<Container style={{ paddingTop: "100px" }}>
 							<Login user={user} setUser={setUser} />
+						</Container>
+					</Route>
+					<Route path="/register">
+						<Container style={{ paddingTop: "100px" }}>
+							<Register user={user} setUser={setUser} />
 						</Container>
 					</Route>
 
