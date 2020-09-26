@@ -89,7 +89,7 @@ export const Register = (props: RegisterProps) => {
 							<BForm.Group controlId="formBasicPassword">
 								<BForm.Label>Confirm password</BForm.Label>
 								<BForm.Control
-									type="password2"
+									type="password"
 									placeholder="Confirm password"
 									value={password2}
 									onChange={(e) =>
