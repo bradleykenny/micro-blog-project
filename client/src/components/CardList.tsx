@@ -10,40 +10,32 @@ export const CardList = (props: CardListProps) => {
 	const [postsCount, setPostsCount] = useState(10);
 
 	useEffect(() => {
-		axios
-			.get("http://localhost:5000/api/posts/" + postsCount)
-			.then((response) => {
-				setCards(response.data);
-				response.data.forEach((post: any) => {
-					axios
-						.get("http://localhost:5000/api/user/" + post.user)
-						.then((res) => {
-							const { avatar, follows, username } = res.data;
-							const temp = { avatar, follows, username };
+		axios.get("/api/posts/" + postsCount).then((response) => {
+			setCards(response.data);
+			response.data.forEach((post: any) => {
+				axios.get("/api/user/" + post.user).then((res) => {
+					const { avatar, follows, username } = res.data;
+					const temp = { avatar, follows, username };
 
-							post.user = temp;
-						});
+					post.user = temp;
 				});
 			});
+		});
 	}, []);
 
 	const handleLoad = () => {
-		axios
-			.get("http://localhost:5000/api/posts/" + (postsCount + 10))
-			.then((response) => {
-				setCards(response.data);
-				setPostsCount(postsCount + 10);
-				response.data.forEach((post: any) => {
-					axios
-						.get("http://localhost:5000/api/user/" + post.user)
-						.then((res) => {
-							const { avatar, follows, username } = res.data;
-							const temp = { avatar, follows, username };
+		axios.get("/api/posts/" + (postsCount + 10)).then((response) => {
+			setCards(response.data);
+			setPostsCount(postsCount + 10);
+			response.data.forEach((post: any) => {
+				axios.get("/api/user/" + post.user).then((res) => {
+					const { avatar, follows, username } = res.data;
+					const temp = { avatar, follows, username };
 
-							post.user = temp;
-						});
+					post.user = temp;
 				});
 			});
+		});
 	};
 
 	return (

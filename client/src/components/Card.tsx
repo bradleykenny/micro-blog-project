@@ -25,7 +25,7 @@ export const Card = (props: CardProps) => {
 
 	const handleLiked = () => {
 		axios
-			.post("http://localhost:5000/api/posts/" + props.id + "/like", {
+			.post("/api/posts/" + props.id + "/like", {
 				user: props.username,
 			})
 			.then((res) => {

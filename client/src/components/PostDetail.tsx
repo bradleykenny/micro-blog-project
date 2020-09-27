@@ -24,21 +24,17 @@ export const PostDetail = (props: PostDetailProps) => {
 	});
 
 	useEffect(() => {
-		axios
-			.get("http://localhost:5000/api/posts/get/" + id)
-			.then((response) => {
-				let post = response.data;
-				console.log(post);
-				axios
-					.get("http://localhost:5000/api/user/" + post.user)
-					.then((res) => {
-						const { avatar, follows, username } = res.data;
-						const temp = { avatar, follows, username };
+		axios.get("/api/posts/get/" + id).then((response) => {
+			let post = response.data;
+			console.log(post);
+			axios.get("/api/user/" + post.user).then((res) => {
+				const { avatar, follows, username } = res.data;
+				const temp = { avatar, follows, username };
 
-						post.user = temp;
-						setPost(post);
-					});
+				post.user = temp;
+				setPost(post);
 			});
+		});
 	}, []);
 
 	return (

@@ -32,7 +32,7 @@ export const Login = (props: LoginProps) => {
 	const handleLogin = (e: any) => {
 		e.preventDefault();
 		axios
-			.post("http://localhost:5000/api/login", { username, password })
+			.post("/api/login", { username, password })
 			.then((response) => {
 				setUser(response.data);
 				localStorage.setItem("user", JSON.stringify(response.data));

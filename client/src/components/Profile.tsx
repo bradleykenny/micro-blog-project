@@ -24,30 +24,21 @@ export const Profile = (props: ProfileProps) => {
 	let { username } = useParams<{ username: string }>();
 
 	useEffect(() => {
-		axios
-			.get("http://localhost:5000/api/user/" + username)
-			.then((response) => {
-				setUser(response.data);
-			});
+		axios.get("/api/user/" + username).then((response) => {
+			setUser(response.data);
+		});
 
 		axios
-			.get(
-				"http://localhost:5000/api/posts/user/" +
-					username +
-					"/" +
-					postsCount
-			)
+			.get("/api/posts/user/" + username + "/" + postsCount)
 			.then((response) => {
 				setCards(response.data);
 				response.data.forEach((post: any) => {
-					axios
-						.get("http://localhost:5000/api/user/" + post.user)
-						.then((res) => {
-							const { avatar, follows, username } = res.data;
-							const temp = { avatar, follows, username };
+					axios.get("/api/user/" + post.user).then((res) => {
+						const { avatar, follows, username } = res.data;
+						const temp = { avatar, follows, username };
 
-							post.user = temp;
-						});
+						post.user = temp;
+					});
 				});
 			});
 	}, []);

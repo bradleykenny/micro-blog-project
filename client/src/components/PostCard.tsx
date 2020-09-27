@@ -24,7 +24,7 @@ export const PostCard = (props: PostCardProps) => {
 		e.preventDefault();
 		if (content.length > 0) {
 			axios
-				.post("http://localhost:5000/api/posts/create", {
+				.post("/api/posts/create", {
 					user: props.user.username,
 					content: content,
 					likes: [],
