@@ -34,10 +34,10 @@ data.posts.map((record) => {
     if (atUser) {
         formattedContent = formattedContent.replace(new RegExp("@[a-zA-Z]+"), atTagForUser(atUser[0].substring(1)));
     }
-    let hashRegex = new RegExp("@[a-zA-Z]+");
+    let hashRegex = new RegExp("#[a-zA-Z]+");
     let hashtag = formattedContent.match(hashRegex);
     if (hashtag) {
-        formattedContent = formattedContent.replace(new RegExp("@[a-zA-Z]+"), hashTagForUser(hashtag[0].substring(1)));
+        formattedContent = formattedContent.replace(new RegExp("#[a-zA-Z]+"), hashTagForUser(hashtag[0].substring(1)));
     }
     const newPost = new Post_1.Post({
         id: uuid_1.v4(),

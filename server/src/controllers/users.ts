@@ -71,18 +71,41 @@ userRouter.get("/api/user/:username", async (req, res) => {
 });
 
 userRouter.post("/api/follow/:username", async (req, res) => {
-	res.send(
-		await User.findOne({ username: req.params.username })
-			.then((result) => {
-				let { followReq } = req.body;
-				if (!result?.follows.includes(followReq)) {
-					result?.follows.push(followReq);
-					result?.save();
-					return `${req.params.username} follows ${req.body.followReq}`;
-				}
+	const token = getTokenFrom(req);
+	if (!token) {
+		return res.status(401).json({ error: "invalid token" });
+	}
 
-				return `${req.params.username} already follows ${req.body.followReq}`;
+	const decodedToken: any = jwt.verify(token, String(process.env.SECRETKEY));
+	if (!token || !decodedToken.username) {
+		return res.status(401).json({ error: "invalid token" });
+	}
+
+	res.send(
+		await User.findOne({ username: decodedToken.username })
+			.then((result) => {
+				let { username } = req.body;
+				if (!result?.follows.includes(username)) {
+					result?.follows.push(username);
+					result?.save();
+					return `${decodedToken.username} follows ${req.body.username}`;
+				} else {
+					result.follows = result?.follows.filter(
+						(u) => u !== username
+					);
+					result?.save();
+					return `${decodedToken.username} already follows ${req.body.username}`;
+				}
 			})
 			.catch((err) => err)
 	);
 });
+
+// Auth check
+const getTokenFrom = (request: any) => {
+	const authorization = request.get("authorization");
+	if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+		return authorization.substring(7);
+	}
+	return null;
+};

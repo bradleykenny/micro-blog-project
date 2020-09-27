@@ -72,16 +72,35 @@ exports.userRouter.get("/api/user/:username", (req, res) => __awaiter(void 0, vo
         .catch((err) => err));
 }));
 exports.userRouter.post("/api/follow/:username", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send(yield db_1.User.findOne({ username: req.params.username })
+    const token = getTokenFrom(req);
+    if (!token) {
+        return res.status(401).json({ error: "invalid token" });
+    }
+    const decodedToken = jsonwebtoken_1.default.verify(token, String(process.env.SECRETKEY));
+    if (!token || !decodedToken.username) {
+        return res.status(401).json({ error: "invalid token" });
+    }
+    res.send(yield db_1.User.findOne({ username: decodedToken.username })
         .then((result) => {
-        let { followReq } = req.body;
-        if (!(result === null || result === void 0 ? void 0 : result.follows.includes(followReq))) {
-            result === null || result === void 0 ? void 0 : result.follows.push(followReq);
+        let { username } = req.body;
+        if (!(result === null || result === void 0 ? void 0 : result.follows.includes(username))) {
+            result === null || result === void 0 ? void 0 : result.follows.push(username);
             result === null || result === void 0 ? void 0 : result.save();
-            return `${req.params.username} follows ${req.body.followReq}`;
+            return `${decodedToken.username} follows ${req.body.username}`;
         }
-        return `${req.params.username} already follows ${req.body.followReq}`;
+        else {
+            result.follows = result === null || result === void 0 ? void 0 : result.follows.filter((u) => u !== username);
+            result === null || result === void 0 ? void 0 : result.save();
+            return `${decodedToken.username} already follows ${req.body.username}`;
+        }
     })
         .catch((err) => err));
 }));
+const getTokenFrom = (request) => {
+    const authorization = request.get("authorization");
+    if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+        return authorization.substring(7);
+    }
+    return null;
+};
 //# sourceMappingURL=users.js.map

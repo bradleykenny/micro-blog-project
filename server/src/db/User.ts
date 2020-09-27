@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 export interface IUser extends mongoose.Document {
-	username: String;
-	password: String;
-	avatar: String;
-	follows: [String];
+	username: string;
+	password: string;
+	avatar: string;
+	follows: string[];
 }
 
 const UserSchema = new Schema({

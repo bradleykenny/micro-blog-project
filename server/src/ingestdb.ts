@@ -39,25 +39,25 @@ mongoose
 		console.error(error.message);
 	});
 
-// data.users.map((u: any) => {
-// 	u.password = bcrypt.hash(u.password, 10).then((encPW) => {
-// 		const newUser = new User({
-// 			username: u.id,
-// 			password: encPW,
-// 			avatar: u.avatar,
-// 			followers: u.followers,
-// 		});
+data.users.map((u: any) => {
+	u.password = bcrypt.hash(u.password, 10).then((encPW) => {
+		const newUser = new User({
+			username: u.id,
+			password: encPW,
+			avatar: u.avatar,
+			followers: u.followers,
+		});
 
-// 		newUser
-// 			.save()
-// 			.then((result) => {
-// 				console.log("user saved to mongo");
-// 			})
-// 			.catch((error) => {
-// 				console.error("user already there");
-// 			});
-// 	});
-// });
+		newUser
+			.save()
+			.then((result) => {
+				console.log("user saved to mongo");
+			})
+			.catch((error) => {
+				console.error("user already there");
+			});
+	});
+});
 
 data.posts.map((record: any) => {
 	let formattedContent: string = record.content;
@@ -70,11 +70,11 @@ data.posts.map((record: any) => {
 		);
 	}
 
-	let hashRegex: RegExp = new RegExp("@[a-zA-Z]+");
+	let hashRegex: RegExp = new RegExp("#[a-zA-Z]+");
 	let hashtag: string[] = formattedContent.match(hashRegex)!;
 	if (hashtag) {
 		formattedContent = formattedContent.replace(
-			new RegExp("@[a-zA-Z]+"),
+			new RegExp("#[a-zA-Z]+"),
 			hashTagForUser(hashtag[0].substring(1))
 		);
 	}

@@ -143,7 +143,7 @@ const getUsersForPosts = (posts) => __awaiter(void 0, void 0, void 0, function* 
 });
 const getFollowers = (user) => __awaiter(void 0, void 0, void 0, function* () {
     return yield db_1.User.findOne({ username: user }).then((result) => {
-        return result ? result.follows : [];
+        return result ? [user, ...result.follows] : [user];
     });
 });
 const atTagForUser = (user) => {

@@ -21,6 +21,8 @@ export const Profile = (props: ProfileProps) => {
 		__v: 0,
 	});
 
+	const curUser = JSON.parse(localStorage.getItem("user") || "{}");
+
 	const [following, setFollowing] = useState(false);
 
 	let { username } = useParams<{ username: string }>();
@@ -28,6 +30,15 @@ export const Profile = (props: ProfileProps) => {
 	useEffect(() => {
 		axios.get("/api/user/" + username).then((response) => {
 			setUser(response.data);
+			if (curUser) {
+				console.log(response.data.username);
+				console.log(curUser);
+				setFollowing(
+					curUser.follows.includes(response.data.username)
+						? true
+						: false
+				);
+			}
 		});
 
 		axios
@@ -50,7 +61,21 @@ export const Profile = (props: ProfileProps) => {
 	};
 
 	const handleFollow = () => {
-		setFollowing(!following);
+		console.log("/api/follow/" + user.username);
+		const config = {
+			headers: { Authorization: "Bearer " + curUser.token },
+		};
+		axios
+			.post(
+				"/api/follow/" + user.username,
+				{
+					username: user.username,
+				},
+				config
+			)
+			.then((res) => {
+				setFollowing(!following);
+			});
 	};
 
 	return (
@@ -59,15 +84,20 @@ export const Profile = (props: ProfileProps) => {
 				<img src={user.avatar} id="jumbo_img" />
 				<h1 id="jumbo_username">@{user.username}</h1>
 				<br />
-				<Button size="sm">{following ? "Unfollow" : "Follow"}</Button>
+				{curUser.token && (
+					<Button size="sm" onClick={handleFollow}>
+						{following ? "Unfollow" : "Follow"}
+					</Button>
+				)}
 			</Jumbotron>
 			{cards.map((c: any) => (
 				<Card
+					key={c.id}
 					id={c.id}
-					username={c.user}
+					username={c.user.username ? c.user.username : c.user}
 					text={c.content}
 					likes={c.likes}
-					avatar={c.avatar}
+					avatar={c.user.avatar ? c.user.avatar : c.avatar}
 					timestamp={c.timestamp}
 				/>
 			))}

@@ -177,7 +177,6 @@ const atTagForUser = (user: string) => {
 };
 
 // Auth check
-
 const getTokenFrom = (request: any) => {
 	const authorization = request.get("authorization");
 	if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
