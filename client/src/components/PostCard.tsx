@@ -9,6 +9,7 @@ import {
 	Form,
 	Button,
 } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 import { JWT } from "../types/JWT";
 
@@ -19,18 +20,25 @@ type PostCardProps = {
 export const PostCard = (props: PostCardProps) => {
 	const [content, setContent] = useState("");
 	const [showForm, setShowForm] = useState(false);
+	const history = useHistory();
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
 		if (content.length > 0) {
+			const config = {
+				headers: { Authorization: "Bearer " + props.user.token },
+			};
 			axios
-				.post("/api/posts/create", {
-					user: props.user.username,
-					content: content,
-					likes: [],
-				})
+				.post(
+					"/api/posts/create",
+					{
+						content: content,
+					},
+					config
+				)
 				.then((res) => {
 					alert("Content posted!");
+					history.push("/");
 					setContent("");
 				});
 		}

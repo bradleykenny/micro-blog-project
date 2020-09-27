@@ -53,8 +53,11 @@ postRouter.get("/api/posts/all", async (req, res) => {
 
 postRouter.post("/api/posts/create", async (req, res) => {
 	const token = getTokenFrom(req);
-	const decodedToken: any = jwt.verify(token, String(process.env.SECRETKEY));
+	if (!token) {
+		return res.status(401).json({ error: "invalid token" });
+	}
 
+	const decodedToken: any = jwt.verify(token, String(process.env.SECRETKEY));
 	if (!token || !decodedToken.username) {
 		return res.status(401).json({ error: "invalid token" });
 	}

@@ -54,6 +54,9 @@ exports.postRouter.get("/api/posts/all", (req, res) => __awaiter(void 0, void 0,
 }));
 exports.postRouter.post("/api/posts/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = getTokenFrom(req);
+    if (!token) {
+        return res.status(401).json({ error: "invalid token" });
+    }
     const decodedToken = jsonwebtoken_1.default.verify(token, String(process.env.SECRETKEY));
     if (!token || !decodedToken.username) {
         return res.status(401).json({ error: "invalid token" });
