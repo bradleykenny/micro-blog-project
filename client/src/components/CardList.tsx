@@ -24,7 +24,6 @@ export const CardList = (props: CardListProps) => {
 	}, []);
 
 	const handleLoad = () => {
-		console.log(postsCount);
 		axios.get("/api/posts/" + (postsCount + 10)).then((response) => {
 			setCards(response.data);
 			setPostsCount(postsCount + 10);

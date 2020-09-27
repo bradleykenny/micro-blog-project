@@ -29,7 +29,7 @@ exports.postRouter.get("/api/posts/:limit", (req, res) => __awaiter(void 0, void
         .sort({ timestamp: -1 })
         .then((result) => __awaiter(void 0, void 0, void 0, function* () {
         const limit = Number(req.params.limit);
-        if (result.length < limit) {
+        if (result.length > limit) {
             let newArr = result.slice(0, limit);
             return yield getUsersForPosts(newArr);
         }
