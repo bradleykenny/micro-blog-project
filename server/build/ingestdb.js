@@ -30,7 +30,6 @@ data.users.map((u) => {
             avatar: u.avatar,
             followers: u.followers,
         });
-        console.log(newUser);
         newUser
             .save()
             .then((result) => {
@@ -41,8 +40,6 @@ data.users.map((u) => {
         });
     });
 });
-console.log(data.users);
-data.users.map((record) => { });
 data.posts.map((record) => {
     const newPost = new Post_1.Post({
         id: record.id,

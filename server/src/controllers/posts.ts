@@ -22,8 +22,12 @@ postRouter.get("/api/posts/:limit", async (req, res) => {
 		await Post.find({})
 			.sort({ timestamp: -1 })
 			.then(async (result) => {
-				let newArr = result.slice(0, Number(req.params.limit));
-				return await getUsersForPosts(newArr);
+				const limit = Number(req.params.limit);
+				if (result.length < limit) {
+					let newArr = result.slice(0, limit);
+					return await getUsersForPosts(newArr);
+				}
+				return await getUsersForPosts(result);
 			})
 			.catch((err) => err)
 	);
