@@ -39,8 +39,6 @@ data.users.map((u: any) => {
 			followers: u.followers,
 		});
 
-		console.log(newUser);
-
 		newUser
 			.save()
 			.then((result) => {
@@ -51,10 +49,6 @@ data.users.map((u: any) => {
 			});
 	});
 });
-
-console.log(data.users);
-
-data.users.map((record: any) => {});
 
 data.posts.map((record: any) => {
 	const newPost = new Post({
