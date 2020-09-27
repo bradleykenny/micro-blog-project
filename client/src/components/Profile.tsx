@@ -64,9 +64,10 @@ export const Profile = (props: ProfileProps) => {
 			</Jumbotron>
 			{cards.map((c: any) => (
 				<Card
+					id={c.id}
 					username={c.user}
 					text={c.content}
-					likes={0}
+					likes={c.likes}
 					avatar={c.avatar}
 					timestamp={c.timestamp}
 				/>

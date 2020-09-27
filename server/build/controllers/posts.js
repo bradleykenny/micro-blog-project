@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const dateformat_1 = __importDefault(require("dateformat"));
+const uuid_1 = require("uuid");
 const db_1 = require("../db");
 exports.postRouter = express_1.default.Router();
 exports.postRouter.get("/api/posts/user/:username/:limit", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -58,6 +59,7 @@ exports.postRouter.post("/api/posts/create", (req, res) => __awaiter(void 0, voi
         formattedContent = formattedContent.replace(new RegExp("@[a-zA-Z]+"), atTagForUser(atUser[0].substring(1)));
     }
     const newPost = new db_1.Post({
+        id: uuid_1.v4(),
         user: req.body.user,
         timestamp: dateformat_1.default(Date.now(), "yyyy-mm-dd HH:MM:ss"),
         content: formattedContent,
@@ -74,7 +76,22 @@ exports.postRouter.post("/api/posts/create", (req, res) => __awaiter(void 0, voi
     });
 }));
 exports.postRouter.post("/api/posts/:id/like", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("OK");
+    res.send(yield db_1.Post.findOne({ id: req.params.id })
+        .then((result) => {
+        return result;
+    })
+        .catch((err) => err));
+}));
+exports.postRouter.get("/api/posts/get/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send(yield db_1.Post.findOne({ id: req.params.id })
+        .then((result) => {
+        const user = req.body.user;
+        if (!(result === null || result === void 0 ? void 0 : result.likes.includes(user))) {
+            result === null || result === void 0 ? void 0 : result.likes.push(user);
+            result === null || result === void 0 ? void 0 : result.save();
+        }
+    })
+        .catch((err) => err));
 }));
 const getUsersForPosts = (posts) => __awaiter(void 0, void 0, void 0, function* () {
     const usersInPromise = posts.map((post) => __awaiter(void 0, void 0, void 0, function* () {

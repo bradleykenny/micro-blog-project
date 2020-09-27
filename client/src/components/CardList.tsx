@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Card, PostCard } from "./";
+import { Card } from "./";
 import { Button } from "react-bootstrap";
 
 type CardListProps = {};
@@ -51,9 +51,11 @@ export const CardList = (props: CardListProps) => {
 			{cards.map((c: any) => {
 				return (
 					<Card
+						key={c.id}
+						id={c.id}
 						username={c.user}
 						text={c.content}
-						likes={0}
+						likes={c.likes}
 						avatar={c.avatar}
 						timestamp={c.timestamp}
 					/>

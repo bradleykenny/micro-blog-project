@@ -33,6 +33,19 @@
 	font-size: 1em;
 }
 
+.card > .card_text > p > a {
+	text-decoration: none;
+	color: rgb(81, 84, 238);
+	margin: -5px -2.5px;
+	font-size: 1em;
+	padding: 2.5px;
+	border-radius: 5px;
+}
+
+.card > .card_text > p > a:hover {
+	background-color: rgba(81, 84, 238, 0.2);
+}
+
 .card_text {
 	display: inline-block;
 	margin-top: -45px;

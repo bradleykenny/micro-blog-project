@@ -7,6 +7,7 @@ require("dotenv").config();
 const mongoose_1 = __importDefault(require("mongoose"));
 const fs_1 = __importDefault(require("fs"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const uuid_1 = require("uuid");
 const User_1 = require("./db/User");
 const Post_1 = require("./db/Post");
 const rawData = fs_1.default.readFileSync("./sampledata.json").toString();
@@ -42,7 +43,7 @@ data.users.map((u) => {
 });
 data.posts.map((record) => {
     const newPost = new Post_1.Post({
-        id: record.id,
+        id: uuid_1.v4(),
         user: record.user,
         timestamp: record.timestamp,
         content: record.content,

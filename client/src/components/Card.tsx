@@ -1,22 +1,40 @@
 import React, { useState } from "react";
 import dateformat from "dateformat";
 import BCard from "react-bootstrap/Card";
+import { useHistory } from "react-router";
 
 import "../style/Card.css";
+import { JWT } from "../types/JWT";
+import axios from "axios";
 
 type CardProps = {
 	username: string;
 	text: string;
-	likes: number;
+	likes: string[];
 	avatar: string;
 	timestamp: string;
+	id: string;
 };
 
 export const Card = (props: CardProps) => {
-	const [liked, setLiked] = useState(false);
+	const curUser: JWT = JSON.parse(localStorage.getItem("user") || "");
+	const [liked, setLiked] = useState(
+		props.likes.includes(curUser.username) ? true : false
+	);
+	const history = useHistory();
 
 	const handleLiked = () => {
-		setLiked(!liked);
+		axios
+			.post("http://localhost:5000/api/posts/" + props.id + "/like", {
+				user: props.username,
+			})
+			.then((res) => {
+				setLiked(!liked);
+			});
+	};
+
+	const handleMore = () => {
+		history.push("/post/" + props.id);
 	};
 
 	const ts: number = Date.parse(props.timestamp);
@@ -34,7 +52,7 @@ export const Card = (props: CardProps) => {
 				<p dangerouslySetInnerHTML={{ __html: props.text }}></p>
 				<ul>
 					<p onClick={handleLiked}>{liked ? "Unlike" : "Like"}</p>
-					<p> More</p>
+					<p onClick={handleMore}>More</p>
 				</ul>
 				<h6>{formatDate}</h6>
 			</div>

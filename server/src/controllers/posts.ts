@@ -1,5 +1,6 @@
 import express from "express";
 import dateformat from "dateformat";
+import { v4 as uuid } from "uuid";
 
 import { Post, IPost, TPost, User, IUser } from "../db";
 
@@ -61,6 +62,7 @@ postRouter.post("/api/posts/create", async (req, res) => {
 	}
 
 	const newPost = new Post({
+		id: uuid(),
 		user: req.body.user,
 		timestamp: dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss"),
 		content: formattedContent,
@@ -79,7 +81,27 @@ postRouter.post("/api/posts/create", async (req, res) => {
 });
 
 postRouter.post("/api/posts/:id/like", async (req, res) => {
-	res.send("OK");
+	res.send(
+		await Post.findOne({ id: req.params.id })
+			.then((result) => {
+				return result;
+			})
+			.catch((err) => err)
+	);
+});
+
+postRouter.get("/api/posts/get/:id", async (req, res) => {
+	res.send(
+		await Post.findOne({ id: req.params.id })
+			.then((result) => {
+				const user = req.body.user;
+				if (!result?.likes.includes(user)) {
+					result?.likes.push(user);
+					result?.save();
+				}
+			})
+			.catch((err) => err)
+	);
 });
 
 // Helper functions

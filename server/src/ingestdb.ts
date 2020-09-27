@@ -8,6 +8,7 @@ require("dotenv").config();
 import mongoose from "mongoose";
 import fs from "fs";
 import bcrypt from "bcrypt";
+import { v4 as uuid } from "uuid";
 
 import { User } from "./db/User";
 import { Post } from "./db/Post";
@@ -52,7 +53,7 @@ data.users.map((u: any) => {
 
 data.posts.map((record: any) => {
 	const newPost = new Post({
-		id: record.id,
+		id: uuid(),
 		user: record.user,
 		timestamp: record.timestamp,
 		content: record.content,

@@ -6,3 +6,4 @@ export { PostCard } from "./PostCard";
 export { NavBar } from "./Nav";
 export { Register } from "./Register";
 export { Profile } from "./Profile";
+export { PostDetail } from "./PostDetail";

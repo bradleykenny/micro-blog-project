@@ -10,7 +10,15 @@ import Container from "react-bootstrap/Container";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./App.css";
-import { CardList, NavBar, Login, Home, Register, Profile } from "./components";
+import {
+	CardList,
+	NavBar,
+	Login,
+	Home,
+	Register,
+	Profile,
+	PostDetail,
+} from "./components";
 
 const App = () => {
 	const [user, setUser] = useState(null);
@@ -48,6 +56,11 @@ const App = () => {
 					<Route path="/register">
 						<Container style={{ paddingTop: "100px" }}>
 							<Register user={user} setUser={setUser} />
+						</Container>
+					</Route>
+					<Route path="/post/:id">
+						<Container style={{ paddingTop: "100px" }}>
+							<PostDetail />
 						</Container>
 					</Route>
 

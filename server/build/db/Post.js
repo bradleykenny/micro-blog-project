@@ -7,7 +7,7 @@ exports.Post = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const Schema = mongoose_1.default.Schema;
 const PostSchema = new Schema({
-    id: Number,
+    id: String,
     user: String,
     timestamp: String,
     content: String,

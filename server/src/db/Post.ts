@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 export interface IPost extends mongoose.Document {
-	id: number;
+	id: string;
 	user: string;
 	avatar?: string | undefined;
 	timestamp: string;
@@ -12,7 +12,7 @@ export interface IPost extends mongoose.Document {
 }
 
 export type TPost = {
-	id: number;
+	id: string;
 	user: string;
 	avatar?: string | undefined;
 	timestamp: string;
@@ -21,7 +21,7 @@ export type TPost = {
 };
 
 const PostSchema = new Schema({
-	id: Number,
+	id: String,
 	user: String,
 	timestamp: String,
 	content: String,
