@@ -114,6 +114,14 @@ exports.postRouter.get("/api/posts/get/:id", (req, res) => __awaiter(void 0, voi
     })
         .catch((err) => err));
 }));
+exports.postRouter.get("/api/posts/:username/followers", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const followers = yield getFollowers(req.params.username);
+    yield db_1.Post.find({ user: { $in: followers } })
+        .sort({ timestamp: -1 })
+        .then((result) => {
+        res.json(result);
+    });
+}));
 const getUsersForPosts = (posts) => __awaiter(void 0, void 0, void 0, function* () {
     const usersInPromise = posts.map((post) => __awaiter(void 0, void 0, void 0, function* () {
         return yield db_1.User.findOne({ username: post.user }).then((res) => res);
@@ -133,8 +141,13 @@ const getUsersForPosts = (posts) => __awaiter(void 0, void 0, void 0, function* 
         return temp;
     });
 });
+const getFollowers = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield db_1.User.findOne({ username: user }).then((result) => {
+        return result ? result.follows : [];
+    });
+});
 const atTagForUser = (user) => {
-    return '<a href="/profile/"' + user + '">@' + user + "</a>";
+    return '<a href="/profile/' + user + '">@' + user + "</a>";
 };
 const getTokenFrom = (request) => {
     const authorization = request.get("authorization");

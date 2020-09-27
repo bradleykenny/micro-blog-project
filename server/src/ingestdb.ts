@@ -21,6 +21,14 @@ const url: string = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MON
 
 console.log(url);
 
+const atTagForUser = (user: string) => {
+	return '<a href="/profile/' + user + '">@' + user + "</a>";
+};
+
+const hashTagForUser = (hash: string) => {
+	return '<a href="/hashtag/' + hash + '">#' + hash + "</a>";
+};
+
 mongoose
 	.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then((result) => {
@@ -31,32 +39,51 @@ mongoose
 		console.error(error.message);
 	});
 
-data.users.map((u: any) => {
-	u.password = bcrypt.hash(u.password, 10).then((encPW) => {
-		const newUser = new User({
-			username: u.id,
-			password: encPW,
-			avatar: u.avatar,
-			followers: u.followers,
-		});
+// data.users.map((u: any) => {
+// 	u.password = bcrypt.hash(u.password, 10).then((encPW) => {
+// 		const newUser = new User({
+// 			username: u.id,
+// 			password: encPW,
+// 			avatar: u.avatar,
+// 			followers: u.followers,
+// 		});
 
-		newUser
-			.save()
-			.then((result) => {
-				console.log("user saved to mongo");
-			})
-			.catch((error) => {
-				console.error("user already there");
-			});
-	});
-});
+// 		newUser
+// 			.save()
+// 			.then((result) => {
+// 				console.log("user saved to mongo");
+// 			})
+// 			.catch((error) => {
+// 				console.error("user already there");
+// 			});
+// 	});
+// });
 
 data.posts.map((record: any) => {
+	let formattedContent: string = record.content;
+	let atRegex: RegExp = new RegExp("@[a-zA-Z]+");
+	let atUser: string[] = formattedContent.match(atRegex)!;
+	if (atUser) {
+		formattedContent = formattedContent.replace(
+			new RegExp("@[a-zA-Z]+"),
+			atTagForUser(atUser[0].substring(1))
+		);
+	}
+
+	let hashRegex: RegExp = new RegExp("@[a-zA-Z]+");
+	let hashtag: string[] = formattedContent.match(hashRegex)!;
+	if (hashtag) {
+		formattedContent = formattedContent.replace(
+			new RegExp("@[a-zA-Z]+"),
+			hashTagForUser(hashtag[0].substring(1))
+		);
+	}
+
 	const newPost = new Post({
 		id: uuid(),
 		user: record.user,
 		timestamp: record.timestamp,
-		content: record.content,
+		content: formattedContent,
 		likes: record.likes,
 	});
 

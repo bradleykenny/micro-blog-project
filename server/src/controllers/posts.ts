@@ -9,6 +9,7 @@ export const postRouter = express.Router();
 
 // Posts...
 
+// Get all posts by a provided username
 postRouter.get("/api/posts/user/:username/:limit", async (req, res) => {
 	res.send(
 		await Post.find({ user: req.params.username })
@@ -25,6 +26,7 @@ postRouter.get("/api/posts/user/:username/:limit", async (req, res) => {
 	);
 });
 
+// Get first `:limit` posts
 postRouter.get("/api/posts/:limit", async (req, res) => {
 	res.send(
 		await Post.find({})
@@ -51,6 +53,7 @@ postRouter.get("/api/posts/all", async (req, res) => {
 	);
 });
 
+// Create a new post
 postRouter.post("/api/posts/create", async (req, res) => {
 	const token = getTokenFrom(req);
 	if (!token) {
@@ -91,6 +94,7 @@ postRouter.post("/api/posts/create", async (req, res) => {
 		});
 });
 
+// Like a post given its ID
 postRouter.post("/api/posts/:id/like", async (req, res) => {
 	const token = getTokenFrom(req);
 	if (!token) {
@@ -118,6 +122,7 @@ postRouter.post("/api/posts/:id/like", async (req, res) => {
 	);
 });
 
+// Get a post by its ID
 postRouter.get("/api/posts/get/:id", async (req, res) => {
 	res.send(
 		await Post.findOne({ id: req.params.id })
@@ -126,6 +131,16 @@ postRouter.get("/api/posts/get/:id", async (req, res) => {
 			})
 			.catch((err) => err)
 	);
+});
+
+// Get posts only by users following and OURSELF
+postRouter.get("/api/posts/:username/followers", async (req, res) => {
+	const followers = <string[]>await getFollowers(req.params.username);
+	await Post.find({ user: { $in: followers } })
+		.sort({ timestamp: -1 })
+		.then((result) => {
+			res.json(result);
+		});
 });
 
 // Helper functions
@@ -150,8 +165,15 @@ const getUsersForPosts = async (posts: IPost[]) => {
 	});
 };
 
+// Return an array of all people a user is following
+const getFollowers = async (user: string) => {
+	return await User.findOne({ username: user }).then((result) => {
+		return result ? [user, ...result.follows] : [user];
+	});
+};
+
 const atTagForUser = (user: string) => {
-	return '<a href="/profile/"' + user + '">@' + user + "</a>";
+	return '<a href="/profile/' + user + '">@' + user + "</a>";
 };
 
 // Auth check
