@@ -27,9 +27,6 @@ export const NavBar = (props: NavProps) => {
 					Home
 				</Nav.Link>
 			</Nav.Item>
-			<Nav.Item>
-				<Nav.Link href="/about">About</Nav.Link>
-			</Nav.Item>
 			{props.username ? (
 				<>
 					<Nav.Item>

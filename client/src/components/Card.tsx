@@ -17,7 +17,7 @@ type CardProps = {
 };
 
 export const Card = (props: CardProps) => {
-	const curUser: JWT = JSON.parse(localStorage.getItem("user") || "");
+	const curUser: JWT = JSON.parse(localStorage.getItem("user") || "{}");
 	const [liked, setLiked] = useState(
 		props.likes.includes(curUser.username) ? true : false
 	);
