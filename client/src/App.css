@@ -36,3 +36,14 @@
 		transform: rotate(360deg);
 	}
 }
+
+.btn-primary {
+	background-color: rgb(81, 84, 238);
+	border-color: rgb(67, 70, 243);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+	background-color: rgb(67, 70, 243);
+	border-color: rgb(52, 55, 240);
+}
