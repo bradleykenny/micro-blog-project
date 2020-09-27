@@ -7,6 +7,7 @@ import BButton from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Alert from "react-bootstrap/Alert";
 
 import { JWT } from "../types/JWT";
 
@@ -26,34 +27,40 @@ export const Register = (props: RegisterProps) => {
 	const [password, setPassword] = useState("");
 	const [password2, setPassword2] = useState("");
 
+	const [error, setError] = useState(false);
+
 	const history = useHistory();
 
 	const { user, setUser } = props;
 
 	const handleRegister = (e: any) => {
 		e.preventDefault();
-		axios
-			.post("/api/register", {
-				username,
-				password,
-				password2,
-			})
-			.then((response) => {
-				axios
-					.post("/api/login", {
-						username,
-						password,
-					})
-					.then((response2) => {
-						setUser(response2.data);
-						localStorage.setItem(
-							"user",
-							JSON.stringify(response2.data)
-						);
-						history.push("/home");
-					})
-					.catch((err) => console.log(err));
-			});
+		if (password === password2) {
+			axios
+				.post("/api/register", {
+					username,
+					password,
+					password2,
+				})
+				.then((response) => {
+					axios
+						.post("/api/login", {
+							username,
+							password,
+						})
+						.then((response2) => {
+							setUser(response2.data);
+							localStorage.setItem(
+								"user",
+								JSON.stringify(response2.data)
+							);
+							history.push("/home");
+						})
+						.catch((err) => console.log(err));
+				});
+		} else {
+			setError(true);
+		}
 	};
 
 	if (user) {
@@ -67,6 +74,11 @@ export const Register = (props: RegisterProps) => {
 				<Col xs={6}>
 					<BCard>
 						<BForm onSubmit={handleRegister}>
+							{error && (
+								<Alert variant="danger">
+									Passwords are not the same.
+								</Alert>
+							)}
 							<BForm.Group controlId="formBasicEmail">
 								<BForm.Label>Username</BForm.Label>
 								<BForm.Control

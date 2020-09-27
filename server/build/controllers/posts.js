@@ -16,6 +16,7 @@ exports.postRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const dateformat_1 = __importDefault(require("dateformat"));
 const uuid_1 = require("uuid");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const db_1 = require("../db");
 exports.postRouter = express_1.default.Router();
 exports.postRouter.get("/api/posts/user/:username/:limit", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -52,6 +53,11 @@ exports.postRouter.get("/api/posts/all", (req, res) => __awaiter(void 0, void 0,
         .catch((err) => err));
 }));
 exports.postRouter.post("/api/posts/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const token = getTokenFrom(req);
+    const decodedToken = jsonwebtoken_1.default.verify(token, String(process.env.SECRETKEY));
+    if (!token || !decodedToken.username) {
+        return res.status(401).json({ error: "invalid token" });
+    }
     let formattedContent = req.body.content;
     let atRegex = new RegExp("@[a-zA-Z]+");
     let atUser = formattedContent.match(atRegex);
@@ -60,10 +66,10 @@ exports.postRouter.post("/api/posts/create", (req, res) => __awaiter(void 0, voi
     }
     const newPost = new db_1.Post({
         id: uuid_1.v4(),
-        user: req.body.user,
+        user: decodedToken.username,
         timestamp: dateformat_1.default(Date.now(), "yyyy-mm-dd HH:MM:ss"),
         content: formattedContent,
-        likes: req.body.likes,
+        likes: [],
     });
     newPost
         .save()
@@ -76,9 +82,17 @@ exports.postRouter.post("/api/posts/create", (req, res) => __awaiter(void 0, voi
     });
 }));
 exports.postRouter.post("/api/posts/:id/like", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const token = getTokenFrom(req);
+    if (!token) {
+        return res.status(401).json({ error: "invalid token" });
+    }
+    const decodedToken = jsonwebtoken_1.default.verify(token, String(process.env.SECRETKEY));
+    if (!token || !decodedToken.username) {
+        return res.status(401).json({ error: "invalid token" });
+    }
     res.send(yield db_1.Post.findOne({ id: req.params.id })
         .then((result) => {
-        const user = req.body.user;
+        const user = decodedToken.username;
         if (!(result === null || result === void 0 ? void 0 : result.likes.includes(user))) {
             result === null || result === void 0 ? void 0 : result.likes.push(user);
             result === null || result === void 0 ? void 0 : result.save();
@@ -118,6 +132,13 @@ const getUsersForPosts = (posts) => __awaiter(void 0, void 0, void 0, function* 
 });
 const atTagForUser = (user) => {
     return '<a href="/profile/"' + user + '">@' + user + "</a>";
+};
+const getTokenFrom = (request) => {
+    const authorization = request.get("authorization");
+    if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+        return authorization.substring(7);
+    }
+    return null;
 };
 exports.default = exports.postRouter;
 //# sourceMappingURL=posts.js.map

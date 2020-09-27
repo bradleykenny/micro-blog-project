@@ -1,6 +1,7 @@
 import express from "express";
 import dateformat from "dateformat";
 import { v4 as uuid } from "uuid";
+import jwt from "jsonwebtoken";
 
 import { Post, IPost, TPost, User, IUser } from "../db";
 
@@ -51,6 +52,13 @@ postRouter.get("/api/posts/all", async (req, res) => {
 });
 
 postRouter.post("/api/posts/create", async (req, res) => {
+	const token = getTokenFrom(req);
+	const decodedToken: any = jwt.verify(token, String(process.env.SECRETKEY));
+
+	if (!token || !decodedToken.username) {
+		return res.status(401).json({ error: "invalid token" });
+	}
+
 	let formattedContent: string = req.body.content;
 	let atRegex: RegExp = new RegExp("@[a-zA-Z]+");
 	let atUser: string[] = formattedContent.match(atRegex)!;
@@ -63,10 +71,10 @@ postRouter.post("/api/posts/create", async (req, res) => {
 
 	const newPost = new Post({
 		id: uuid(),
-		user: req.body.user,
+		user: decodedToken.username,
 		timestamp: dateformat(Date.now(), "yyyy-mm-dd HH:MM:ss"),
 		content: formattedContent,
-		likes: req.body.likes,
+		likes: [],
 	});
 
 	newPost
@@ -81,10 +89,20 @@ postRouter.post("/api/posts/create", async (req, res) => {
 });
 
 postRouter.post("/api/posts/:id/like", async (req, res) => {
+	const token = getTokenFrom(req);
+	if (!token) {
+		return res.status(401).json({ error: "invalid token" });
+	}
+
+	const decodedToken: any = jwt.verify(token, String(process.env.SECRETKEY));
+	if (!token || !decodedToken.username) {
+		return res.status(401).json({ error: "invalid token" });
+	}
+
 	res.send(
 		await Post.findOne({ id: req.params.id })
 			.then((result) => {
-				const user = req.body.user;
+				const user = decodedToken.username;
 				if (!result?.likes.includes(user)) {
 					result?.likes.push(user);
 					result?.save();
@@ -131,6 +149,16 @@ const getUsersForPosts = async (posts: IPost[]) => {
 
 const atTagForUser = (user: string) => {
 	return '<a href="/profile/"' + user + '">@' + user + "</a>";
+};
+
+// Auth check
+
+const getTokenFrom = (request: any) => {
+	const authorization = request.get("authorization");
+	if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+		return authorization.substring(7);
+	}
+	return null;
 };
 
 export default postRouter;

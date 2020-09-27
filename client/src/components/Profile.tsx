@@ -21,6 +21,8 @@ export const Profile = (props: ProfileProps) => {
 		__v: 0,
 	});
 
+	const [following, setFollowing] = useState(false);
+
 	let { username } = useParams<{ username: string }>();
 
 	useEffect(() => {
@@ -47,11 +49,17 @@ export const Profile = (props: ProfileProps) => {
 		setPostsCount(postsCount + 10);
 	};
 
+	const handleFollow = () => {
+		setFollowing(!following);
+	};
+
 	return (
 		<>
 			<Jumbotron fluid>
 				<img src={user.avatar} id="jumbo_img" />
 				<h1 id="jumbo_username">@{user.username}</h1>
+				<br />
+				<Button size="sm">{following ? "Unfollow" : "Follow"}</Button>
 			</Jumbotron>
 			{cards.map((c: any) => (
 				<Card

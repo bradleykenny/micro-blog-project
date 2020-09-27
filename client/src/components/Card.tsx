@@ -24,10 +24,17 @@ export const Card = (props: CardProps) => {
 	const history = useHistory();
 
 	const handleLiked = () => {
+		const config = {
+			headers: { Authorization: "Bearer " + curUser.token },
+		};
 		axios
-			.post("/api/posts/" + props.id + "/like", {
-				user: props.username,
-			})
+			.post(
+				"/api/posts/" + props.id + "/like",
+				{
+					user: props.username,
+				},
+				config
+			)
 			.then((res) => {
 				setLiked(!liked);
 			});
@@ -51,7 +58,9 @@ export const Card = (props: CardProps) => {
 				</a>
 				<p dangerouslySetInnerHTML={{ __html: props.text }}></p>
 				<ul>
-					<p onClick={handleLiked}>{liked ? "Unlike" : "Like"}</p>
+					{curUser.token && (
+						<p onClick={handleLiked}>{liked ? "Unlike" : "Like"}</p>
+					)}
 					<p onClick={handleMore}>More</p>
 				</ul>
 				<h6>{formatDate}</h6>
