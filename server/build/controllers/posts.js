@@ -78,18 +78,22 @@ exports.postRouter.post("/api/posts/create", (req, res) => __awaiter(void 0, voi
 exports.postRouter.post("/api/posts/:id/like", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send(yield db_1.Post.findOne({ id: req.params.id })
         .then((result) => {
-        return result;
+        const user = req.body.user;
+        if (!(result === null || result === void 0 ? void 0 : result.likes.includes(user))) {
+            result === null || result === void 0 ? void 0 : result.likes.push(user);
+            result === null || result === void 0 ? void 0 : result.save();
+        }
+        else {
+            result.likes = result === null || result === void 0 ? void 0 : result.likes.filter((u) => u !== user);
+            result === null || result === void 0 ? void 0 : result.save();
+        }
     })
         .catch((err) => err));
 }));
 exports.postRouter.get("/api/posts/get/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send(yield db_1.Post.findOne({ id: req.params.id })
         .then((result) => {
-        const user = req.body.user;
-        if (!(result === null || result === void 0 ? void 0 : result.likes.includes(user))) {
-            result === null || result === void 0 ? void 0 : result.likes.push(user);
-            result === null || result === void 0 ? void 0 : result.save();
-        }
+        return result;
     })
         .catch((err) => err));
 }));

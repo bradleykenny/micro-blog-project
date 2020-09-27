@@ -84,7 +84,14 @@ postRouter.post("/api/posts/:id/like", async (req, res) => {
 	res.send(
 		await Post.findOne({ id: req.params.id })
 			.then((result) => {
-				return result;
+				const user = req.body.user;
+				if (!result?.likes.includes(user)) {
+					result?.likes.push(user);
+					result?.save();
+				} else {
+					result.likes = result?.likes.filter((u) => u !== user);
+					result?.save();
+				}
 			})
 			.catch((err) => err)
 	);
@@ -94,11 +101,7 @@ postRouter.get("/api/posts/get/:id", async (req, res) => {
 	res.send(
 		await Post.findOne({ id: req.params.id })
 			.then((result) => {
-				const user = req.body.user;
-				if (!result?.likes.includes(user)) {
-					result?.likes.push(user);
-					result?.save();
-				}
+				return result;
 			})
 			.catch((err) => err)
 	);

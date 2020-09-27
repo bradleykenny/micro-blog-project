@@ -8,7 +8,7 @@ export interface IPost extends mongoose.Document {
 	avatar?: string | undefined;
 	timestamp: string;
 	content: string;
-	likes: [string];
+	likes: string[];
 }
 
 export type TPost = {
@@ -17,7 +17,7 @@ export type TPost = {
 	avatar?: string | undefined;
 	timestamp: string;
 	content: string;
-	likes: [string];
+	likes: string[];
 };
 
 const PostSchema = new Schema({
