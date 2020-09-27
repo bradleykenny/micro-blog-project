@@ -5,3 +5,4 @@ export { Login } from "./Login";
 export { PostCard } from "./PostCard";
 export { NavBar } from "./Nav";
 export { Register } from "./Register";
+export { Profile } from "./Profile";

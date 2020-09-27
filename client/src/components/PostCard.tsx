@@ -24,7 +24,7 @@ export const PostCard = (props: PostCardProps) => {
 		e.preventDefault();
 		if (content.length > 0) {
 			axios
-				.post("/api/posts/create", {
+				.post("http://localhost:5000/api/posts/create", {
 					user: props.user.username,
 					content: content,
 					likes: [],
@@ -85,6 +85,7 @@ export const PostCard = (props: PostCardProps) => {
 												type="text"
 												placeholder="Content"
 												onChange={handleChange}
+												value={content}
 											/>
 										</Form.Group>
 										<Button

@@ -11,6 +11,8 @@ import Col from "react-bootstrap/Col";
 import { JWT } from "../types/JWT";
 
 import "../style/Card.css";
+import "../style/Login.css";
+
 import { useHistory } from "react-router";
 import { Redirect } from "react-router-dom";
 
@@ -31,14 +33,14 @@ export const Register = (props: RegisterProps) => {
 	const handleRegister = (e: any) => {
 		e.preventDefault();
 		axios
-			.post("/api/register", {
+			.post("http://localhost:5000/api/register", {
 				username,
 				password,
 				password2,
 			})
 			.then((response) => {
 				axios
-					.post("/api/login", {
+					.post("http://localhost:5000/api/login", {
 						username,
 						password,
 					})
@@ -79,7 +81,7 @@ export const Register = (props: RegisterProps) => {
 								<BForm.Label>Password</BForm.Label>
 								<BForm.Control
 									type="password"
-									placeholder="Password"
+									placeholder="Enter password"
 									value={password}
 									onChange={(e) =>
 										setPassword(e.target.value)
@@ -97,10 +99,13 @@ export const Register = (props: RegisterProps) => {
 									}
 								/>
 							</BForm.Group>
-							<BButton variant="primary" type="submit">
+							<BButton variant="primary" type="submit" block>
 								Submit
 							</BButton>
 						</BForm>
+						<BCard.Link href="/login" className="registerLink">
+							Don't have an account?
+						</BCard.Link>
 					</BCard>
 				</Col>
 				<Col></Col>
