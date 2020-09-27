@@ -181,7 +181,7 @@ const atTagForUser = (user) => {
     return '<a href="/profile/"' + user + '">@' + user + "</a>";
 };
 app.get("*", (req, res) => {
-    res.sendFile(path_1.default.join(__dirname, "../client/build/index.html"));
+    res.sendFile(path_1.default.join(__dirname, "../../client/build/index.html"));
 });
 app.listen(app.get("port"), () => {
     console.log(`Server running on port ${app.get("port")}.`);

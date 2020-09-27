@@ -218,7 +218,7 @@ const atTagForUser = (user: string) => {
 // Catch all to avoid "cannot find /*" error
 
 app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "../client/build/index.html"));
+	res.sendFile(path.join(__dirname, "../../client/build/index.html"));
 });
 
 // Listening...
