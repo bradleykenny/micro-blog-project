@@ -43,7 +43,7 @@ export const Home = (props: HomeProps) => {
 						{props.user && <PostCard user={props.user} />}
 						<CardList />
 					</Col>
-					<Col></Col>
+					<Col />
 				</Row>
 			</Container>
 		</div>

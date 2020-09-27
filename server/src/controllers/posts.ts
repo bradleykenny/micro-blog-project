@@ -7,11 +7,17 @@ export const postRouter = express.Router();
 
 // Posts...
 
-postRouter.get("/api/posts/all", async (req, res) => {
+postRouter.get("/api/posts/user/:username/:limit", async (req, res) => {
 	res.send(
-		await Post.find({})
-			.then((result) => {
-				return result;
+		await Post.find({ user: req.params.username })
+			.sort({ timestamp: -1 })
+			.then(async (result) => {
+				const limit = Number(req.params.limit);
+				if (result.length > limit) {
+					let newArr = result.slice(0, limit);
+					return await getUsersForPosts(newArr);
+				}
+				return await getUsersForPosts(result);
 			})
 			.catch((err) => err)
 	);
@@ -33,9 +39,9 @@ postRouter.get("/api/posts/:limit", async (req, res) => {
 	);
 });
 
-postRouter.get("/api/posts/:username", async (req, res) => {
+postRouter.get("/api/posts/all", async (req, res) => {
 	res.send(
-		await Post.find({ user: req.params.username })
+		await Post.find({})
 			.then((result) => {
 				return result;
 			})

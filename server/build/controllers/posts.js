@@ -17,11 +17,17 @@ const express_1 = __importDefault(require("express"));
 const dateformat_1 = __importDefault(require("dateformat"));
 const db_1 = require("../db");
 exports.postRouter = express_1.default.Router();
-exports.postRouter.get("/api/posts/all", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send(yield db_1.Post.find({})
-        .then((result) => {
-        return result;
-    })
+exports.postRouter.get("/api/posts/user/:username/:limit", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send(yield db_1.Post.find({ user: req.params.username })
+        .sort({ timestamp: -1 })
+        .then((result) => __awaiter(void 0, void 0, void 0, function* () {
+        const limit = Number(req.params.limit);
+        if (result.length > limit) {
+            let newArr = result.slice(0, limit);
+            return yield getUsersForPosts(newArr);
+        }
+        return yield getUsersForPosts(result);
+    }))
         .catch((err) => err));
 }));
 exports.postRouter.get("/api/posts/:limit", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -37,8 +43,8 @@ exports.postRouter.get("/api/posts/:limit", (req, res) => __awaiter(void 0, void
     }))
         .catch((err) => err));
 }));
-exports.postRouter.get("/api/posts/:username", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send(yield db_1.Post.find({ user: req.params.username })
+exports.postRouter.get("/api/posts/all", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send(yield db_1.Post.find({})
         .then((result) => {
         return result;
     })

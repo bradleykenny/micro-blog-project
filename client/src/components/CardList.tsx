@@ -49,7 +49,6 @@ export const CardList = (props: CardListProps) => {
 	return (
 		<>
 			{cards.map((c: any) => {
-				console.log(c);
 				return (
 					<Card
 						username={c.user}

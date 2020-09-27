@@ -5,11 +5,12 @@ import {
 	Route,
 	Redirect,
 } from "react-router-dom";
-import "./App.css";
 
 import Container from "react-bootstrap/Container";
-import { CardList, NavBar, Login, Home, Register } from "./components";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import "./App.css";
+import { CardList, NavBar, Login, Home, Register, Profile } from "./components";
 
 const App = () => {
 	const [user, setUser] = useState(null);
@@ -34,9 +35,9 @@ const App = () => {
 							<CardList />
 						</Container>
 					</Route>
-					<Route path="/profile">
+					<Route path="/profile/:username">
 						<Container style={{ paddingTop: "100px" }}>
-							<CardList />
+							<Profile />
 						</Container>
 					</Route>
 					<Route path="/login">
