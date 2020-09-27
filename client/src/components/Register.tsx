@@ -31,14 +31,14 @@ export const Register = (props: RegisterProps) => {
 	const handleRegister = (e: any) => {
 		e.preventDefault();
 		axios
-			.post("http://localhost:5000/api/register", {
+			.post("/api/register", {
 				username,
 				password,
 				password2,
 			})
 			.then((response) => {
 				axios
-					.post("http://localhost:5000/api/login", {
+					.post("/api/login", {
 						username,
 						password,
 					})
