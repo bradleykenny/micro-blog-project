@@ -19,6 +19,7 @@ const cors_1 = __importDefault(require("cors"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dateformat_1 = __importDefault(require("dateformat"));
+const path_1 = __importDefault(require("path"));
 const db_1 = require("./db");
 let bodyParser = require("body-parser");
 const app = express_1.default();
@@ -179,6 +180,9 @@ const getUsersForPosts = (posts) => __awaiter(void 0, void 0, void 0, function* 
 const atTagForUser = (user) => {
     return '<a href="/profile/"' + user + '">@' + user + "</a>";
 };
+app.get("*", (req, res) => {
+    res.sendFile(path_1.default.join(__dirname, "../client/build/index.html"));
+});
 app.listen(app.get("port"), () => {
     console.log(`Server running on port ${app.get("port")}.`);
 }).on("error", (e) => console.error(e));

@@ -6,6 +6,7 @@ import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dateformat from "dateformat";
+import path from "path";
 
 import { Post, IPost, TPost, User, IUser } from "./db";
 
@@ -213,6 +214,12 @@ const getUsersForPosts = async (posts: IPost[]) => {
 const atTagForUser = (user: string) => {
 	return '<a href="/profile/"' + user + '">@' + user + "</a>";
 };
+
+// Catch all to avoid "cannot find /*" error
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
 
 // Listening...
 
