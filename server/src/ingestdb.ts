@@ -1,3 +1,8 @@
+/*
+	WARNING: Only use for DEVELOPMENT! 
+			 This filw will place a heap of data into the MongoDB instance. 
+*/
+
 require("dotenv").config();
 
 import mongoose from "mongoose";
