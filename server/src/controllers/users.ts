@@ -86,10 +86,15 @@ userRouter.post("/api/follow/:username", async (req, res) => {
 			.then((result) => {
 				let { username } = req.body;
 				if (!result?.follows.includes(username)) {
+					console.log("follows");
+					console.log(result);
 					result?.follows.push(username);
+					console.log(result);
 					result?.save();
 					return `${decodedToken.username} follows ${req.body.username}`;
 				} else {
+					console.log("unfollows");
+					console.log(result);
 					result.follows = result?.follows.filter(
 						(u) => u !== username
 					);

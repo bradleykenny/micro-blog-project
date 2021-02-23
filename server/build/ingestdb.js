@@ -6,7 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv").config();
 const mongoose_1 = __importDefault(require("mongoose"));
 const fs_1 = __importDefault(require("fs"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const uuid_1 = require("uuid");
+const User_1 = require("./db/User");
 const Post_1 = require("./db/Post");
 const rawData = fs_1.default.readFileSync("./sampledata.json").toString();
 const data = JSON.parse(rawData);
@@ -26,6 +28,24 @@ mongoose_1.default
     .catch((error) => {
     console.log("NOT connected to MongoDB.");
     console.error(error.message);
+});
+data.users.map((u) => {
+    u.password = bcrypt_1.default.hash(u.password, 10).then((encPW) => {
+        const newUser = new User_1.User({
+            username: u.id,
+            password: encPW,
+            avatar: u.avatar,
+            followers: u.followers,
+        });
+        newUser
+            .save()
+            .then((result) => {
+            console.log("user saved to mongo");
+        })
+            .catch((error) => {
+            console.error("user already there");
+        });
+    });
 });
 data.posts.map((record) => {
     let formattedContent = record.content;

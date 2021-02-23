@@ -84,11 +84,16 @@ exports.userRouter.post("/api/follow/:username", (req, res) => __awaiter(void 0,
         .then((result) => {
         let { username } = req.body;
         if (!(result === null || result === void 0 ? void 0 : result.follows.includes(username))) {
+            console.log("follows");
+            console.log(result);
             result === null || result === void 0 ? void 0 : result.follows.push(username);
+            console.log(result);
             result === null || result === void 0 ? void 0 : result.save();
             return `${decodedToken.username} follows ${req.body.username}`;
         }
         else {
+            console.log("unfollows");
+            console.log(result);
             result.follows = result === null || result === void 0 ? void 0 : result.follows.filter((u) => u !== username);
             result === null || result === void 0 ? void 0 : result.save();
             return `${decodedToken.username} already follows ${req.body.username}`;
